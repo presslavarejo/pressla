@@ -120,7 +120,7 @@ class Templates extends CI_Controller {
                     'upload_path'   => './assets/images/templates',
                     'allowed_types' => 'gif|jpg|png|jpeg',
                     'file_name'     =>  mb_strtolower(preg_replace('/\s+/', '', $imagem['name']),"UTF-8"),
-                    'max_size'      => '50000'
+                    'max_size'      => '500000'
                 );
     
                 $this->load->library('upload');
@@ -171,7 +171,7 @@ class Templates extends CI_Controller {
                         'upload_path'   => './assets/images/templates',
                         'allowed_types' => 'gif|jpg|png|jpeg',
                         'file_name'     =>  mb_strtolower(preg_replace('/\s+/', '', $imagem['name']),"UTF-8"),
-                        'max_size'      => '50000'
+                        'max_size'      => '500000'
                     );
         
                     $this->load->library('upload');

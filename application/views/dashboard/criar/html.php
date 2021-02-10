@@ -33,7 +33,7 @@
                             <div class="col-sm">
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text">Tipo</span>
+                                        <span class="input-group-text">Categoria</span>
                                     </div>
                                     <select name="tipo_template" id="tipo_template" class='form-control' onchange="buscaIds()">
                                         <?php

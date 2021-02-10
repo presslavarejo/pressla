@@ -35,7 +35,7 @@
 
                     <div class="form-row">
                         <div class="col-sm-6">
-                            <span class='text-muted'>Selecione os tipos compatíveis com o template</span>
+                            <span class='text-muted'>Selecione as categorias do template</span>
                             <table>
                                 <?php
                                     $compat = explode(', ',$template->ids_tipos);

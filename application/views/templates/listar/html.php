@@ -10,7 +10,7 @@
                         <tr>
                             <?php if(count($templates) > 0) {?>        
                             <th>Nome</th>
-                            <th>Lista de Tipos</th>
+                            <th>Categorias</th>
                             <th></th>
                             <?php } else {echo "Não há templates cadastrados.";}?>
                         </tr>
