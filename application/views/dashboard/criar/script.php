@@ -903,13 +903,13 @@
         //Procura 10 resultados no google
         //"https://www.googleapis.com/customsearch/v1?key=AIzaSyDn8VqTxIoktrCJsdyXzHghc6HlXG4BANA&cx=e0fab0362a537c756&q="+value+"&callback=hndlr&imgColorType=trans&searchType=image&hl=lang_pt&imgSize=large&lr=lang_pt&safe=off&filter=1"
         
-        $.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyDn8VqTxIoktrCJsdyXzHghc6HlXG4BANA&cx=e0fab0362a537c756&q="+value+"&callback=hndlr&searchType=image&fileType=png&imgColorType=trans&imgSize=large", function(retorno1){
+        $.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyDn8VqTxIoktrCJsdyXzHghc6HlXG4BANA&cx=e0fab0362a537c756&q="+value+"&callback=hndlr&searchType=image&imgSize=large", function(retorno1){
             retorno1 = retorno1.slice(22);
             retorno1 = retorno1.slice(0, -2);
             retorno1 = JSON.parse(retorno1);
 
             //Procura MAIS 10 resultados no google
-            $.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyDn8VqTxIoktrCJsdyXzHghc6HlXG4BANA&cx=e0fab0362a537c756&q="+value+"&callback=hndlr&searchType=image&fileType=png&start=11&imgColorType=trans&imgSize=large", function(retorno2){
+            $.get("https://www.googleapis.com/customsearch/v1?key=AIzaSyDn8VqTxIoktrCJsdyXzHghc6HlXG4BANA&cx=e0fab0362a537c756&q="+value+"&callback=hndlr&searchType=image&start=11&imgSize=large", function(retorno2){
                 retorno2 = retorno2.slice(22);
                 retorno2 = retorno2.slice(0, -2);
                 retorno2 = JSON.parse(retorno2);
@@ -961,15 +961,19 @@
             }
             if(tipo == 'next' && index < figuras.length - 1){
                 $("#imagematual").attr('src',figuras[index+1].url);
+				$("#produtol1").val(figuras[index+1].title);
                 isAviso();
             } else if(tipo == 'next' && index == figuras.length - 1){
                 $("#imagematual").attr('src',figuras[0].url);
+				$("#produtol1").val(figuras[0].title);
                 isAviso();
             } else if(tipo == 'back' && index > 0){
                 $("#imagematual").attr('src',figuras[index-1].url);
+				$("#produtol1").val(figuras[index-1].title);
                 isAviso();
             } else {
                 $("#imagematual").attr('src',figuras[figuras.length - 1].url);
+				$("#produtol1").val(figuras[figuras.length - 1].title);
                 isAviso();
             }
         }
