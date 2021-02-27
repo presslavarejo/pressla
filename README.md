@@ -8,10 +8,10 @@
 
 * Adicionar Figuras em Massa:
 
-	* Inclua todas as imagens desejadas na pasta C:\inetpub\vhosts\default\htdocs\assets\images\figuras
+	* Inclua todas as imagens desejadas na pasta C:\Inetpub\vhosts\pressla.com.br\app.pressla.com.br\assets\images\figuras
 	* Acesse o link: app.pressla.com.br/assets/images/figuras/banco.php
 	* Copie todo o conteúdo retornado na tela (você pode selecionar tudo com o atalho CTRL + A e copiar com CTRL + C)
-	* Abra o phpMyAdmin acessando o link app.pressla.com.br/phpmyadmin
+	* Abra o phpMyAdmin acessando o link http://162.214.159.35/phpmyadmin/
 	* Acesse o banco fparedes_cartaz -> tabela "figuras" -> SQL
 	* Apague o conteúdo da tela e cole o script que você copiou anteriormente
 	* Clique em executar e veja que todas as figuras foras adicionadas
