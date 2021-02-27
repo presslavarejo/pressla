@@ -12,6 +12,8 @@ foreach($tipos as $tipo){
     function mudaCategorias(num){
         $('.categoria').hide();
         $('.categoria'+num).show();
+        $(".categoria").removeAttr("selected");
+		$(".categoria"+num+":first").attr("selected", "selected");
     }
 </script>
 <div class='col offset-md-2'>
