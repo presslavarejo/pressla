@@ -35,7 +35,7 @@
 
                     <div class="form-row">
                         <div class="col-sm-6">
-                            <span class='text-muted'>Selecione as categorias do template</span>
+                            <span class='text-muted'>Selecione os tipos compatíveis com o template</span>
                             <table>
                                 <?php
                                     $compat = explode(', ',$template->ids_tipos);
@@ -63,11 +63,15 @@
                             <br>
                             <div class="form-check form-check-inline">
                                 <input type="radio" name="layout" id="layout1" value='1' class="form-check-input" <?php echo ($template->layout == 1 ? "checked" : ""); ?>>
-                                <label for="layout1" class="form-check-label">Layout 1</label>
+                                <label for="layout1" class="form-check-label">Sem Imagem</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input type="radio" name="layout" id="layout2" value='2' class="form-check-input" <?php echo ($template->layout == 2 ? "checked" : ""); ?>>
-                                <label for="layout2" class="form-check-label">Layout 2</label>
+                                <label for="layout2" class="form-check-label">Com Imagem</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" name="layout" id="layout3" value='3' class="form-check-input" <?php echo ($template->layout == 3 ? "checked" : ""); ?>>
+                                <label for="layout3" class="form-check-label">Cartão Fidelidade</label>
                             </div>
                         </div>
                     </div>

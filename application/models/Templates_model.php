@@ -30,6 +30,10 @@ class Templates_model extends CI_model
         $this->db->where('id', $id);
         return $this->db->get('template_tipo')->row();
     }	
+	
+	public function getTipos() {
+        return $this->db->query("SELECT DISTINCT layout, (SELECT GROUP_CONCAT(temp1.ids_tipos SEPARATOR ', ') FROM templates as temp1 WHERE temp1.layout = temp2.layout) as tipos_ids FROM templates as temp2")->result();
+    }
     
     public function getTemplates() {
         $this->db->order_by('nome');

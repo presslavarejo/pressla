@@ -169,9 +169,18 @@
                     
                     if($("#layout").val() == 1){
                         $('#container_figuras').hide();
+                        $(".preco").html("Preço");
+                        $(".ant").html("Anterior");
                         continuarCartaz(ctx,w,h,fundo,cartaz);
                     } else {
                         $('#container_figuras').show();
+                        if($("#layout").val() == 3){
+                            $(".preco").html("Valor Fidelidade");
+                            $(".ant").html("Valor Normal");
+                        } else {
+                            $(".preco").html("Preço");
+                            $(".ant").html("Anterior");
+                        }
                         if($("#imagematual").attr('src') != ""){
                             var figura = new Image();
                             figura.crossOrigin="anonymous";
@@ -183,6 +192,9 @@
                                 contfigura = 930, 
                                 largfigura = propfigura*altfigura;
                                 var eixoY = (w/2)-50 + (50*parseInt($("#cima").val()));
+                                if($("#layout").val() == 3){
+                                    eixoY = (w/2)-250 + (50*parseInt($("#cima").val()));
+                                }
                                 if(largfigura > 930){
                                     largfigura = 930;
                                     altfigura = largfigura/propfigura;
@@ -223,15 +235,19 @@
         logo.onload = function(){
             if($("#layout").val() == 1){
                 layout1(ctx,w,h,fundo,cartaz,logo);
-            } else {
+            } else if($("#layout").val() == 2) {
                 layout2(ctx,w,h,fundo,cartaz,logo);
+            } else {
+                layout3(ctx,w,h,fundo,cartaz,logo);
             }
         }
         <?php } else { ?>
             if($("#layout").val() == 1){
                 layout1(ctx,w,h,fundo,cartaz,logo);
-            } else {
+            } else if($("#layout").val() == 2) {
                 layout2(ctx,w,h,fundo,cartaz,logo);
+            } else {
+                layout3(ctx,w,h,fundo,cartaz,logo);
             }
         <?php } ?>
     }
@@ -243,6 +259,7 @@
         var precoG = preco[0];
         var precoP = preco[1] ? preco[1] : "00";
         var precoant = $("#precoant").val();
+        var tamanho_fonte = $("#tamanho_fonte").val()/100;
 
         var unidade = $("#unidade").val() ? $("#unidade").val() : "Un";
         var rodape = $("#rodape").val() ? $("#rodape").val() : "";
@@ -253,35 +270,35 @@
 
         //INCLUE O NOME DO PRODUTO
         ctx.textAlign = "center";
-        ctx.font = "bold "+((h/7)-30)+"px "+$('#fonte').val();
+        ctx.font = "bold "+(197*tamanho_fonte)+"px "+$('#fonte').val();
         ctx.fillStyle = "#333333";
         ctx.fillText(produtol1, w/2, (h/4)+(h/8)-125, w-67);
         
-        ctx.font = "bold "+(h/10)+"px "+$('#fonte').val();
+        ctx.font = "bold "+(159*tamanho_fonte)+"px "+$('#fonte').val();
         ctx.fillText(produtol2, w/2, (h/4)+(h/4)-125, w-133);
 
-        ctx.font = "bold "+((h/24))+"px "+$('#fonte').val();
+        ctx.font = "bold "+(66*tamanho_fonte)+"px "+$('#fonte').val();
         ctx.fillText(produtol3, w/2, (h/4)+(h/4)-17, w-67);
 
         //INCLUE A MENSAGEM DE RODAPÉ
         ctx.textAlign = "left";
-        ctx.font = "bold "+(h/48)+"px "+$('#fonte').val();
+        ctx.font = "bold "+(33*tamanho_fonte)+"px "+$('#fonte').val();
         ctx.fillText(rodape, 33, h-17, w-33);
 
         //INCLUE A MEDIDA
         ctx.textAlign = "right";
-        ctx.font = "bold "+(h/20)+"px "+$('#fonte').val();
+        ctx.font = "bold "+(80*tamanho_fonte)+"px "+$('#fonte').val();
         ctx.fillText(unidade, w-50, (h/8)*6 + (h/20), (w/4)-33);
 
         if(precoant != "" && precoant != "0,00"){
             //INCLUE O DE
             ctx.textAlign = "left";
-            ctx.font = "bold "+(h/26)+"px "+$('#fonte').val();
+            ctx.font = "bold "+(61*tamanho_fonte)+"px "+$('#fonte').val();
             ctx.fillText("DE:", 33, (h/8)*4 + 83);
             
             //Preço Anterior
             ctx.textAlign = "left";
-            ctx.font = "bold "+(h/26)+"px "+$('#fonte').val();
+            ctx.font = "bold "+(61*tamanho_fonte)+"px "+$('#fonte').val();
             ctx.fillText("R$ "+precoant, 150, (h/8)*4 + 83);
 
             ctx.beginPath();
@@ -292,30 +309,30 @@
             ctx.stroke();
 
             ctx.textAlign = "left";
-            ctx.font = "bold "+(h/26)+"px "+$('#fonte').val();
+            ctx.font = "bold "+(61*tamanho_fonte)+"px "+$('#fonte').val();
             ctx.fillText("POR:", 33, (h/8)*4 + 150);
         }
 
         //INCLUE O R$
         ctx.fillStyle = "#FF0000";
         ctx.textAlign = "right";
-        ctx.font = "bold "+(h/16)+"px "+$('#fonte').val();
+        ctx.font = "bold "+(99*tamanho_fonte)+"px "+$('#fonte').val();
         ctx.fillText("R$", w-33, (h/8)*6 - (h/8));
 
         //INCLUE O PREÇO GRANDE
         if(precoG.length == 1){
             ctx.textAlign = "center";
-            ctx.font = "bold "+((h/2)-100)+"px "+$('#fonte').val();
+            ctx.font = "bold "+(694*tamanho_fonte)+"px "+$('#fonte').val();
             ctx.fillText(precoG, ((w/2) + 33), h-33-(h/32), w - 33);
         } else {
             ctx.textAlign = "right";
-            ctx.font = "bold "+((h/2)-100)+"px "+$('#fonte').val();
+            ctx.font = "bold "+(694*tamanho_fonte)+"px "+$('#fonte').val();
             ctx.fillText(precoG, (w/4)*3 - 33, h-33-(h/32), ((w/4)*3)-67);
         }
 
         //INCLUE O PREÇO PEQUENO
         ctx.textAlign = "right";
-        ctx.font = "bold "+(h/10)+"px "+$('#fonte').val();
+        ctx.font = "bold "+(159*tamanho_fonte)+"px "+$('#fonte').val();
         ctx.fillText(","+precoP, w-33, (h/8)*6, (w/4)-33);
 
         //A LOGOMARCA SE INCLUI AQUI
@@ -409,6 +426,7 @@
         var precoG = preco[0];
         var precoP = preco[1] ? preco[1] : "00";
         var precoant = $("#precoant").val();
+        var tamanho_fonte = $("#tamanho_fonte").val()/100;
 
         var unidade = $("#unidade").val() ? $("#unidade").val() : "cada";
         var rodape = $("#rodape").val() ? $("#rodape").val() : "";
@@ -421,15 +439,15 @@
         //INCLUE O NOME DO PRODUTO
         ctx.textAlign = "left";
         ctx.fillStyle = "#000000";
-        ctx.font = "bold 45px "+$('#fonte').val();
-        ctx.fillText(produtol1, 100, h-275, 450);
+        ctx.font = "bold "+(65*tamanho_fonte)+"px "+$('#fonte').val(); 
+        ctx.fillText(produtol1, 100, h-350, 900);
         
         ctx.fillStyle = "#222222";
-        ctx.font = "35px "+$('#fonte').val();
-        ctx.fillText(produtol2, 100, h-238, 450);
+        ctx.font = ""+(35*tamanho_fonte)+"px "+$('#fonte').val();
+        ctx.fillText(produtol2, 100, h-280, 450);
 
-        ctx.font = "35px "+$('#fonte').val();
-        ctx.fillText(produtol3, 100, h-198, 450);
+        ctx.font = ""+(30*tamanho_fonte)+"px "+$('#fonte').val();
+        ctx.fillText(produtol3, 100, h-235, 450);
 
         //CÓDIGO DO PRODUTO
         ctx.textAlign = "right";
@@ -509,6 +527,183 @@
         ctx.textAlign = "left";
         ctx.font = "bold 20px Arial";
         ctx.fillText("app.pressla.com.br", -h+225, 25, w-33);
+        
+        var ct = new Image();
+        ct.src = document.getElementById('cartaz'+$("input[name='quadrante']:checked").val()).toDataURL();
+        var id_tam = $('#tamanho').children(":selected").attr('id');
+
+        if(id_tam != "A5" && id_tam != "A6"){
+            ct.onload = function(){
+                cartaz.drawImage(ct, 0, 0, ct.width, ct.height);
+                var saida = "<img id='imgfinal' src='"+document.getElementById('cartaz').toDataURL()+"' width='60%' style='box-shadow: 5px 5px 10px #444;'><div class='divblock'></div>";
+                $('#ver_img').html(saida);
+                //MOSTRA O RESULTADO
+                $('#loader-cartaz').hide();
+                visuPaisagem();
+            }
+        } else if(id_tam == 'A5'){
+            ct.onload = function(){
+                var margemSup = 18.0*3.78;
+                var margemDir = 10.0*3.78;
+                
+                cartaz.beginPath();
+                cartaz.strokeStyle = "#cecece";
+                cartaz.moveTo(-ct.height/2, margemSup);
+                cartaz.lineTo(ct.height*2, margemSup);
+                cartaz.lineWidth = 5;
+                cartaz.setLineDash([25]);
+                cartaz.stroke();
+
+                //linha do meio
+                cartaz.beginPath();
+                cartaz.moveTo(0, margemSup);
+                cartaz.lineTo(0, ct.width*2);
+                cartaz.lineWidth = 5;
+                cartaz.setLineDash([25]);
+                cartaz.stroke();
+
+                if($("input[name='quadrante']:checked").val() == 1){
+                    cartaz.drawImage(ct, -ct.height/2, margemSup, (ct.height/2)-margemDir, ct.width-margemSup);
+                } else {
+                    cartaz.drawImage(ct, margemDir, margemSup, (ct.height/2)-margemDir, ct.width-margemSup);
+                }
+                
+                var saida = "<img id='imgfinal' src='"+document.getElementById('cartaz').toDataURL()+"' width='60%' style='box-shadow: 5px 5px 10px #444;'><div class='divblock'></div>";
+                $('#ver_img').html(saida);
+                //MOSTRA O RESULTADO
+                $('#loader-cartaz').hide();
+                
+                visuPaisagem();
+            }
+        } else if(id_tam == 'A6'){
+            ct.onload = function(){
+                
+                if($("input[name='quadrante']:checked").val() == 1){
+                    cartaz.drawImage(ct, 0, 0, ct.width/2, ct.height/2);
+                } else if($("input[name='quadrante']:checked").val() == 2){
+                    cartaz.drawImage(ct, ct.width/2, 0, ct.width/2, ct.height/2);
+                } else if($("input[name='quadrante']:checked").val() == 3){
+                    cartaz.drawImage(ct, 0, ct.height/2, ct.width/2, ct.height/2);
+                } else {
+                    cartaz.drawImage(ct, ct.width/2, ct.height/2, ct.width/2, ct.height/2);
+                }
+                
+                var saida = "<img id='imgfinal' src='"+document.getElementById('cartaz').toDataURL()+"' width='60%' style='box-shadow: 5px 5px 10px #444;'><div class='divblock'></div>";
+                $('#ver_img').html(saida);
+
+                //MOSTRA O RESULTADO
+                $('#loader-cartaz').hide();
+                
+                visuPaisagem();
+            }
+        }
+    }
+
+    function layout3(ctx,w,h,fundo,cartaz,logo){
+        var preco = $("#preco").val() ? $("#preco").val() : "0,99";
+        preco = preco.split(',');
+        var precoG = preco[0];
+        var precoP = preco[1] ? preco[1] : "00";
+        var precoant = $("#precoant").val();
+        var tamanho_fonte = $("#tamanho_fonte").val()/100;
+
+        var unidade = $("#unidade").val() ? $("#unidade").val() : "cada";
+        var rodape = $("#rodape").val() ? $("#rodape").val() : "";
+        var codigo = $("#codigo").val() ? "Cod.: "+$("#codigo").val() : "";
+
+        var produtol1 = $("#produtol1").val() ? $("#produtol1").val() : "Produto";
+        var produtol2 = $("#produtol2").val() ? $("#produtol2").val() : "";
+        var produtol3 = $("#produtol3").val() ? $("#produtol3").val() : "";
+
+        //INCLUE O NOME DO PRODUTO
+        ctx.textAlign = "left";
+        ctx.fillStyle = "#000000";
+        ctx.font = "bold "+(75*tamanho_fonte)+"px "+$('#fonte').val(); 
+        ctx.fillText(produtol1, 50, h-475, 650);
+        
+        ctx.fillStyle = "#222222";
+        ctx.font = ""+(50*tamanho_fonte)+"px "+$('#fonte').val();
+        ctx.fillText(produtol2, 50, h-400, 650);
+
+        ctx.font = ""+(45*tamanho_fonte)+"px "+$('#fonte').val();
+        ctx.fillText(produtol3, 50, h-350, 650);
+
+        //CÓDIGO DO PRODUTO
+        ctx.textAlign = "right";
+        ctx.font = "20px "+$('#fonte').val();
+        ctx.fillText(codigo, 590, h-275, 100);
+
+        //INCLUE A MENSAGEM DE RODAPÉ
+        ctx.fillStyle = "#ffffff";
+        ctx.textAlign = "left";
+        ctx.font = "bold "+(33*tamanho_fonte)+"px "+$('#fonte').val();
+        ctx.fillText(rodape, 33, h-17, w-33);
+
+        //Preço anterior
+        if(precoant != "" && precoant != "0,00"){
+            var ar_precoant = precoant.split(",");
+            //INCLUE O R$
+            ctx.fillStyle = "#ffffff";
+            ctx.textAlign = "left";
+            ctx.font = "bold 50px "+$('#fonte').val();
+            ctx.fillText("R$", 750, h-500, 770);
+
+            //INCLUE O PREÇO GRANDE
+            ctx.textAlign = "right";
+            ctx.font = "bold 200px "+$('#fonte').val();
+            ctx.fillText(ar_precoant[0], w-192, h-380, 150);
+
+            //INCLUE O PREÇO PEQUENO
+            ctx.textAlign = "left";
+            ctx.font = "bold 65px "+$('#fonte').val();
+            ctx.fillText(","+ar_precoant[1], w-167, h-480, 130);
+            
+            //INCLUE A MEDIDA
+            ctx.font = "30px "+$('#fonte').val();
+            ctx.fillText(unidade, w-167, h-430, 125);
+        }
+
+        //INCLUE O R$
+        ctx.fillStyle = "#ffffff";
+        ctx.textAlign = "left";
+        ctx.font = "bold 50px "+$('#fonte').val();
+        ctx.fillText("R$", 700, h-250, 720);
+
+        //INCLUE O PREÇO GRANDE
+        ctx.textAlign = "right";
+        ctx.font = "bold 250px "+$('#fonte').val();
+        ctx.fillText(precoG, w-192, h-100, 200);
+
+        //INCLUE O PREÇO PEQUENO
+        ctx.textAlign = "left";
+        ctx.font = "bold 75px "+$('#fonte').val();
+        ctx.fillText(","+precoP, w-167, h-230, 130);
+        
+        //INCLUE A MEDIDA
+        ctx.font = "40px "+$('#fonte').val();
+        ctx.fillText(unidade, w-167, h-180, 125);
+
+        //A LOGOMARCA SE INCLUI AQUI
+        <?php if($this->templates_model->getLogo($this->session->userdata('logado')['id'])->logomarca){ ?>
+        if($("#incluilogo").prop("checked")){
+            var propLogo = logo.width/logo.height;
+            var altLogo = 125, contLogo = 370, largLogo = propLogo*altLogo;
+            var eixoY = h-altLogo-85;
+            if(largLogo > 340){
+                largLogo = 340;
+                altLogo = largLogo/propLogo;
+                eixoY = eixoY + ((125-altLogo)/2);
+            }
+            ctx.drawImage(logo, (contLogo-largLogo)/2, eixoY, largLogo, altLogo);
+        }
+        <?php } ?>
+
+        //TEXTO LATERAL
+        ctx.fillStyle = "#333333";
+        ctx.rotate(-90*Math.PI/180);
+        ctx.textAlign = "left";
+        ctx.font = "bold 20px Arial";
+        ctx.fillText("app.pressla.com.br", -h+275, 25, w-33);
         
         var ct = new Image();
         ct.src = document.getElementById('cartaz'+$("input[name='quadrante']:checked").val()).toDataURL();

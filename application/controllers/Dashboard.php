@@ -46,9 +46,7 @@ class Dashboard extends CI_Controller {
 			'figuras' => $this->figuras_model->getFiguras(),
 			'imgtemplates' => $this->templates_model->getTemplates(),
 			'id' => $this->session->userdata('logado')['id'],
-			'linha1' => $this->historico_model->getLinha($this->session->userdata('logado')['id'],1),
-			'linha2' => $this->historico_model->getLinha($this->session->userdata('logado')['id'],2),
-			'linha3' => $this->historico_model->getLinha($this->session->userdata('logado')['id'],3)
+			'tipos' => $this->templates_model->getTipos()
 		);
 		
 		

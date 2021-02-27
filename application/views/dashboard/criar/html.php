@@ -1,3 +1,19 @@
+<style>
+<?php
+foreach($tipos as $tipo){
+    if($tipo->layout != 1){
+        echo ".categoria".$tipo->layout." {display:none;}";
+    }
+}
+?>
+.categoria1 {display:block;}
+</style>
+<script>
+    function mudaCategorias(num){
+        $('.categoria').hide();
+        $('.categoria'+num).show();
+    }
+</script>
 <div class='col offset-md-2'>
     <div id="alerta-sucesso" class="alert alert-success hide" role="alert" style='display:none;'>
         Dados atualizados com sucesso!
@@ -22,14 +38,13 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Layout</span>
                                     </div>
-                                    <select name="layout" id="layout" class='form-control' onchange="buscaIds()">
+                                    <select name="layout" id="layout" class='form-control' onchange="mudaCategorias(this.value);buscaIds()">
                                         <option value="1">Sem Imagem</option>
                                         <option value="2">Com Imagem</option>
+                                        <option value="3">Cartão Fidelidade</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row pl-2 pr-2">
                             <div class="col-sm">
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
@@ -38,7 +53,14 @@
                                     <select name="tipo_template" id="tipo_template" class='form-control' onchange="buscaIds()">
                                         <?php
                                             foreach($templates as $template){
-                                                echo "<option value='".$template->id."' id='".$template->id."'>";
+                                                echo "<option value='".$template->id."' id='".$template->id."' class='";
+                                                foreach($tipos as $tipo){
+                                                    $arids = explode(", ",$tipo->tipos_ids);
+                                                    if(in_array($template->id, $arids)){
+                                                        echo "categoria".$tipo->layout." ";
+                                                    }
+                                                }
+                                                echo "categoria'>";
                                                 echo $template->tipo;
                                                 echo "</option>";
                                             }
@@ -46,7 +68,8 @@
                                     </select>
                                 </div>
                             </div>
-
+                        </div>
+                        <div class="row pl-2 pr-2">
                             <div class="col-sm">
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
@@ -57,8 +80,6 @@
                                     <input type='hidden' id='src_template' />
                                 </div>
                             </div>
-                        </div>
-                        <div class="row pl-2 pr-2">
                             <div class="col-sm">
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
@@ -75,6 +96,8 @@
                                     </select>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row pl-2 pr-2">
                             <div class="col-sm">
                                 <div class="input-group mb-2">
                                     <div class="input-group-prepend">
@@ -95,6 +118,14 @@
                                             $diretorio -> close();
                                         ?>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="col-sm">
+                                <div class="input-group mb-2">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Tam. Fonte (%)</span>
+                                    </div>
+                                    <input type="number" id="tamanho_fonte" class="form-control" value="100" min="1" step="5" onchange="isAviso()">
                                 </div>
                             </div>
                         </div>
@@ -311,7 +342,7 @@
                                 <div class="col-sm">
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">Preço</span>
+                                            <span class="input-group-text preco">Preço</span>
                                         </div>
                                         <input class="form-control" id="preco" type="text" class="form-control" placeholder='Ex.: 1,99' required oninput="" pattern="[0-9]*" onblur="criaCartaz()">
                                     </div>
@@ -319,7 +350,7 @@
                                 <div class="col-sm">
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text">Anterior</span>
+                                            <span class="input-group-text ant">Anterior</span>
                                         </div>
                                         <input class="form-control" id="precoant" type="text" class="form-control" placeholder='Ex.: 1,99' required oninput="" pattern="[0-9]*" onblur="criaCartaz()">
                                     </div>

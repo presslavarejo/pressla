@@ -55,8 +55,8 @@
                 require __DIR__ .  '/../../../../vendor/autoload.php';
 
                 // Configura credenciais
-                MercadoPago\SDK::setAccessToken('TEST-5999412981018379-020306-27863709b5a3277790c87de708a52342-150651446');
-                //MercadoPago\SDK::setAccessToken('TOKEN_DE_PRODUCAO');
+                //MercadoPago\SDK::setAccessToken('TEST-5999412981018379-020306-27863709b5a3277790c87de708a52342-150651446');
+                MercadoPago\SDK::setAccessToken('APP_USR-1016177777202866-021116-2746f1b35693a5b0e02114878bd5c601-713127743');
                 // Cria um objeto de preferência
                 $preference = new MercadoPago\Preference();
 
@@ -69,7 +69,7 @@
                 $item->description = "Créditos para geração de cartazes no sistema da Pressla";
                 $item->category_id = "digital";
                 $item->quantity = $postQuant;
-                $item->unit_price = 1.00;
+                $item->unit_price = 2.00;
 
                 $payer = new MercadoPago\Payer();
                 $payer->email = $this->session->userdata('logado')['login'];

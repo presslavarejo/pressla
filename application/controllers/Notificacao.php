@@ -17,8 +17,8 @@ class Notificacao extends CI_Controller {
         // if($transa = $this->transacao_model->getTransacao($_GET["id"])){
         //     $this->transacao_model->liberaItens($transa->id_cliente,$transa->quantidade);
         // }
-        MercadoPago\SDK::setAccessToken("TEST-5999412981018379-020306-27863709b5a3277790c87de708a52342-150651446");
-        //MercadoPago\SDK::setAccessToken('TOKEN_DE_PRODUCAO');
+        //MercadoPago\SDK::setAccessToken("TEST-5999412981018379-020306-27863709b5a3277790c87de708a52342-150651446");
+        MercadoPago\SDK::setAccessToken('APP_USR-1016177777202866-021116-2746f1b35693a5b0e02114878bd5c601-713127743');
         
         $payment = MercadoPago\Payment::find_by_id($_GET["data_id"]);
 
