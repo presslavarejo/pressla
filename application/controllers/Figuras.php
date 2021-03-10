@@ -81,7 +81,8 @@ class Figuras extends CI_Controller {
                 if($this->upload->do_upload('src')){
                     $figura = array(
                         'nome' => $this->input->post('nome'),
-                        'src' => $configuracao['file_name']
+                        'src' => $configuracao['file_name'],
+                        'ean' => $this->input->post('ean')
                     );
                     if($this->figuras_model->addFigura($figura)){
                         $v = "1";
@@ -119,6 +120,7 @@ class Figuras extends CI_Controller {
                 }
             }
             $figura['nome'] = $this->input->post('nome');
+            $figura['ean'] = $this->input->post('ean');
 
             if($this->figuras_model->updateFigura($temp->id,$figura)){
                 $v = "1";

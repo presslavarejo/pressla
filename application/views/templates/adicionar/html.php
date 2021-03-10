@@ -69,7 +69,11 @@
                             </div>
                             <div class="form-check form-check-inline">
                                 <input type="radio" name="layout" id="layout3" value='3' class="form-check-input">
-                                <label for="layout3" class="form-check-label">Cartão Fidelidade</label>
+                                <label for="layout3" class="form-check-label">Cartão da Loja</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" name="layout" id="layout4" value='4' class="form-check-input">
+                                <label for="layout4" class="form-check-label">Clube Fidelidade</label>
                             </div>
                         </div>
                     </div>

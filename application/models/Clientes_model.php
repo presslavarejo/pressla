@@ -73,6 +73,11 @@ class Clientes_model extends CI_model
 
         if(date("Y-m-d") >= date('Y-m-d', $timestamp2)){
             $this->db->set('ultima', date('Y-m-d'));
+            if($cliente->usadas >= 10){
+                $this->db->set('impressoes', 'impressoes+10', FALSE);
+            } else {
+                $this->db->set('impressoes', 'impressoes+'.$cliente->usadas, FALSE);
+            }
             $this->db->set('usadas', 0);
             $this->db->where('id', $id);
             return $this->db->update('clientes');
@@ -83,11 +88,12 @@ class Clientes_model extends CI_model
         $this->db->where('id', $id);
         $cliente = $this->db->get('clientes')->row();
         
-        return $cliente->usadas < $cliente->impressoes;
+        return $cliente->impressoes > 0;
     }
 
     public function contarImpressaoUsada($id){
         $this->db->set('usadas', 'usadas+1', FALSE);
+        $this->db->set('impressoes', 'impressoes-1', FALSE);
         $this->db->where('id', $id);
         return $this->db->update('clientes');
     }

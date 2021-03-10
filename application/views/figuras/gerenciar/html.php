@@ -32,6 +32,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="col-sm-6">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">EAN</span>
+                                </div>
+                                <input type="text" class="form-control" id="ean" name="ean" type="text" class="form-control" value="<?=$figura->ean?>" placeholder="Código do Produto">
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <button id="enviar" type="submit" class="btn btn-primary pull-right mb-0 mt-2">Enviar</button>

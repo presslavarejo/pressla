@@ -100,7 +100,11 @@
         if(!is_array($metricas)){
             $metricas = array($metricas);
         }
+        $temAtualizacao = false;
         foreach($metricas as $metrica){
+            if($this->clientes_model->checkFechamento($metrica->id)){
+                $temAtualizacao = true;
+            }
     ?>
     <div class='card mb-2'>
         <div class='row'>
@@ -121,12 +125,12 @@
                 <h1><?php echo $metrica->impressoes;?></h1>
             </div>
             <div class='col mb-4 text-center'>
-                Créditos Usados
+                Créditos Usados no mês
                 <br>
                 <h1><?php echo $metrica->usadas;?></h1>
             </div>
             <?php
-            if(!$usuarioadm){
+                if(!$usuarioadm){
             ?>
             <div class='col-sm mb-2 text-center'>
                 <input type="button" value="Obter Mais Créditos" class="btn btn-primary" data-toggle="modal" data-target="#modalCreditosCenter">
@@ -147,11 +151,15 @@
                 <?php } ?>
             </div>
             <?php
-            }
+                }
             ?>
         </div>
     </div>
     <?php
+        }
+        if($temAtualizacao){
+            header("Location: ".base_url("index.php/dashboard"));
+            exit();
         }
     ?>
 </div>

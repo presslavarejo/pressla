@@ -43,7 +43,8 @@ foreach($tipos as $tipo){
                                     <select name="layout" id="layout" class='form-control' onchange="mudaCategorias(this.value);buscaIds()">
                                         <option value="1">Sem Imagem</option>
                                         <option value="2">Com Imagem</option>
-                                        <option value="3">Cartão Fidelidade</option>
+                                        <option value="3">Cartão da Loja</option>
+                                        <option value="4">Clube Fidelidade</option>
                                     </select>
                                 </div>
                             </div>
@@ -247,7 +248,7 @@ foreach($tipos as $tipo){
                                             <datalist id="datafigura">
                                                 <?php
                                                     foreach($figuras as $figura){
-                                                        echo "<option value='".$figura->nome."' onselect='isAviso()'/>";
+                                                        echo "<option value='".$figura->nome."' onselect='isAviso()'>".$figura->ean."</option>";
                                                     }
                                                 ?>
                                             </datalist>

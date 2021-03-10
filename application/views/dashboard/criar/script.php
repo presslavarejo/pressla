@@ -174,7 +174,7 @@
                         continuarCartaz(ctx,w,h,fundo,cartaz);
                     } else {
                         $('#container_figuras').show();
-                        if($("#layout").val() == 3){
+                        if($("#layout").val() == 3 || $("#layout").val() == 4){
                             $(".preco").html("Valor Fidelidade");
                             $(".ant").html("Valor Normal");
                         } else {
@@ -192,7 +192,7 @@
                                 contfigura = 930, 
                                 largfigura = propfigura*altfigura;
                                 var eixoY = (w/2)-50 + (50*parseInt($("#cima").val()));
-                                if($("#layout").val() == 3){
+                                if($("#layout").val() == 3 || $("#layout").val() == 4){
                                     eixoY = (w/2)-250 + (50*parseInt($("#cima").val()));
                                 }
                                 if(largfigura > 930){
@@ -1018,7 +1018,7 @@
 
                 $.get("<?php echo base_url('index.php/dashboard/contarImpressaoUsada/'.$id); ?>");
             } else {
-                $('#texto-aviso').html("Você atingiu o limite máximo!!<br><br>Aguarde até o dia do seu fechamento ou entre em contato com o adiministrador para solicitar uma extensão do seu plano.");
+                $('#texto-aviso').html("Você usou todos os créditos disponível!!<br><br>Obtenha mais créditos para continuar utilizando nossos serviços.");
                 $("#modalAviso").modal('show');
             }
         });
@@ -1058,7 +1058,7 @@
 
                 $.get("<?php echo base_url('index.php/dashboard/contarImpressaoUsada/'.$id); ?>");
             } else {
-                $('#texto-aviso').html("Você atingiu o limite máximo!!<br><br>Aguarde até o dia do seu fechamento ou entre em contato com o adiministrador para solicitar uma extensão do seu plano.");
+                $('#texto-aviso').html("Você usou todos os créditos disponível!!<br><br>Obtenha mais créditos para continuar utilizando nossos serviços.");
                 $("#modalAviso").modal('show');
             }
             $("#loader").hide();
@@ -1073,6 +1073,7 @@
     <?php
         foreach($figuras as $figura){
             echo '"'.$figura->nome.'" : "'.base_url("assets/images/figuras/".$figura->src).'",';
+            echo '"'.$figura->ean.'" : ["'.$figura->nome.'", "'.base_url("assets/images/figuras/".$figura->src).'"],';
         }
     ?>
     }
@@ -1092,7 +1093,7 @@
             return v.toUpperCase().indexOf(value.toUpperCase()) != -1;
         });
         array_filtrado.forEach((item)=>{
-            figuras.push({"url" : objFiguras[item], "title":$("#figura").val()});
+            figuras.push({"url" : (Array.isArray(objFiguras[item]) ? objFiguras[item][1] : objFiguras[item]), "title": (Array.isArray(objFiguras[item]) ? objFiguras[item][0] : $("#figura").val())});
         });
         
         //Procura 10 resultados no google
