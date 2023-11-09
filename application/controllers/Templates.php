@@ -15,7 +15,7 @@ class Templates extends CI_Controller {
 		$data = array(
             'title' => 'Pressla | Templates',
             'localPath' => 'templates/listar/',
-            'templates' => $this->templates_model->getTemplates()
+            'templates' => $this->templates_model->getTemplates(0)
         );
 		
 		$this->load->view('template/header', $data);
@@ -131,7 +131,7 @@ class Templates extends CI_Controller {
                         'ids_tipos' => $this->input->post('ids_tipos'),
                         'nome' => $this->input->post('nome'),
                         'src' => $configuracao['file_name'],
-                        'id_exclusivo' => $this->input->post('id_exclusivo'),
+                        'id_exclusivo' => implode(",",$this->input->post('id_exclusivo')),
                         'layout' => $this->input->post('layout')
                     );
                     if($this->templates_model->addTemplate($template)){
@@ -184,7 +184,7 @@ class Templates extends CI_Controller {
             }
             $template['ids_tipos'] = $this->input->post('ids_tipos');
             $template['nome'] = $this->input->post('nome');
-            $template['id_exclusivo'] = $this->input->post('id_exclusivo');
+            $template['id_exclusivo'] = implode(",",$this->input->post('id_exclusivo'));
             $template['layout'] = $this->input->post('layout');
             
 

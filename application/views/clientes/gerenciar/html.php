@@ -1,4 +1,13 @@
-<div class='col offset-md-2'>
+<style>
+    .wpp {
+        position: absolute;
+        right: 5px;
+        top: 10%;
+        cursor: pointer;
+    }
+</style>
+<div class="col-2" id="comptela"></div>
+<div class='col' id="tela">
     <div id="alerta-sucesso" class="alert alert-success hide" role="alert" style='display:none;'>
         Dados atualizados com sucesso!
     </div>
@@ -44,7 +53,7 @@
                 <div class="col-sm col-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Data de Cadastro</span>
+                            <span class="input-group-text">Cadastro</span>
                         </div>
                         <input name="data_cadastro" id="data_cadastro" type="date" class="form-control" value="<?=$cliente->data_inserido?>" required readonly/>
                     </div>
@@ -57,7 +66,13 @@
                         <select name="assinatura" id="assinatura" class='form-control'>
                             <option value="1" <?php echo $cliente->assinatura == 1 ? "selected" : ""; ?>>PREMIUM</option>
                             <option value="0" <?php echo $cliente->assinatura == 0 ? "selected" : ""; ?>>Básico</option>
+                            <option value="2" <?php echo $cliente->assinatura == 2 ? "selected" : ""; ?>>ILIMITADO</option>
                         </select>
+                    </div>
+                </div>
+                <div class="col-sm col-12">
+                    <div class="input-group mb-1 pt-3">
+                        <label class="ml-auto mr-auto"><input type="checkbox" name="tabloid" value="1" <?php echo $cliente->tabloid == 1 ? "checked" : ""; ?>> Acesso ao Tabloide</label>
                     </div>
                 </div>
             </div>
@@ -197,6 +212,7 @@
                                             <span class="input-group-text">Telefone</span>
                                         </div>
                                         <input name="contato[telefone][]" type="text" value="<?=$contato[0]->telefone[$i]?>" class="form-control telefone-contato"/>
+                                        <img src="<?=base_url("assets/images/wpp.png")?>" height="80%" class="wpp" onclick='window.open("https:\/\/api.whatsapp.com\/send?phone=55<?=str_replace(["(", ")", "-", " "], "", $contato[0]->telefone[$i])?>")'>
                                     </div>
                                 </div>
                                 <div class="col-sm-4 col-12">
@@ -260,8 +276,26 @@
                 <label>Observação</label>
                 <textarea name="obs" id="obs" class="form-control"><?=$cliente->obs?></textarea>
             </div>
+
+            <div class="row mt-4 mb-3">
+                <div class="col">
+                    <strong>INTEGRAÇÃO COM WHATSAPP</strong>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <label class="mb-2">Nome da Sessão</label>
+                    <input type="text" name="sessao" class="form-control" value="<?= $cliente->sessao ?>">
+                </div>
+                <div class="col-md-6">
+                    <label class="mb-2">Token da Sessão</label>
+                    <input type="text" name="token" class="form-control" value="<?= $cliente->token ?>">
+                </div>
+            </div>
+
             <div class="form-group">
-                <button id="enviar" type="submit" class="btn btn-primary pull-right">Enviar</button>
+                <button id="enviar" type="submit" class="btn btn-primary pull-right">Salvar</button>
             </div>
         </form>
     </div>
@@ -283,3 +317,9 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $("#cnpj").mask("00.000.000/0000-00");
+        $(".telefone-contato").mask("(00) 00000-0000");
+    });
+</script>

@@ -1,4 +1,5 @@
-<div class='col offset-md-2'>
+<div class="col-2" id="comptela"></div>
+<div class='col-sm' id="tela">
     <div id="alerta-sucesso" class="alert alert-success hide" role="alert" style='display:none;'>
         Dados atualizados com sucesso!
     </div>
@@ -43,7 +44,7 @@
                 <div class="col-sm col-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <span class="input-group-text">Data de Cadastro</span>
+                            <span class="input-group-text">Cadastro</span>
                         </div>
                         <input name="data_cadastro" id="data_cadastro" type="date" class="form-control" value="<?php echo date('Y-m-d'); ?>" required readonly/>
                     </div>
@@ -56,7 +57,13 @@
                         <select name="assinatura" id="assinatura" class='form-control'>
                             <option value="1">PREMIUM</option>
                             <option value="0">Básico</option>
+                            <option value="2">ILIMITADO</option>
                         </select>
+                    </div>
+                </div>
+                <div class="col-sm col-12">
+                    <div class="input-group mb-1 pt-3">
+                        <label class="ml-auto mr-auto"><input type="checkbox" name="tabloid" value="1"> Acesso ao Tabloide</label>
                     </div>
                 </div>
             </div>
@@ -215,8 +222,26 @@
                 <label>Observação</label>
                 <textarea name="obs" id="obs" class="form-control"></textarea>
             </div>
+
+            <div class="row mt-4 mb-3">
+                <div class="col">
+                    <strong>INTEGRAÇÃO COM WHATSAPP</strong>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="mb-2">Nome da Sessão</label>
+                    <input type="text" name="sessao" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="mb-2">Token da Sessão</label>
+                    <input type="text" name="token" class="form-control">
+                </div>
+            </div>
+            
             <div class="form-group">
-                <button id="enviar" type="submit" class="btn btn-primary pull-right">Enviar</button>
+                <button id="enviar" type="submit" class="btn btn-primary pull-right">Salvar</button>
             </div>
         </form>
     </div>
@@ -238,3 +263,10 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $("#cnpj").mask("00.000.000/0000-00");
+        $(".telefone-contato").mask("(00) 00000-0000");
+        
+    });
+</script>

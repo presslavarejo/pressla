@@ -1,154 +1,190 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-html {
-    scroll-behavior: smooth;
-}
-
-html, body {
-    width: 100%;
-    height: 100%;
-    background-color: #eeeeee;
-    overflow-x: hidden;
-}
-
-a:link, a:visited, a:hover, a:active {
-    color: inherit;
-    text-decoration: none;
-    text-decoration-line: none;
-}
-
-ul {
-    list-style: none;
-}
-
-ul#principal {
-    padding-left: 0;
-}
-
-.linha-item {
-    width: 80%;
-}
-
-#menu-principal {
-    position: fixed;
-    height: 100%;
-    background: rgba(0,212,255,1);
-    background: linear-gradient(45deg, rgba(0,13,36,0.87718837535014) 0%, rgba(9,43,121,1) 16%, rgba(0,212,255,1) 100%);
-    box-shadow: 5px 0px 5px #555555;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    color: #ffffff;
-    font-weight: 500;
-    z-index: 999;
-}
-
-.item-menu {
-    cursor: pointer;
-    transition: .3s;
-    padding-top: 10px;
-    padding-left: 0;
-    margin-left: 0;
-}
-
-.item-menu:hover {
-    color: #444444;
-}
-
-/* MENU MOBILE */
-.cor-menu {
-    position: fixed;
-    display: none;
-    padding: 10px;
-    top: 0;
-    left: 0;
-    background: rgba(0,212,255,1);
-    background: linear-gradient(90deg, rgba(15, 60, 138, 0.877) 0%, rgba(9,43,121,1) 16%, rgba(0,212,255,1) 100%);
-    box-shadow: 5px 0px 5px #555555;
-    color: #ffffff;
-    font-weight: 500;
-    z-index: 998;
-}
-
-#linha-superior {
-    height: 50px;
-    display: none;
-}
-
-@media only screen and (max-width: 768px) {
-    .cor-menu {
-        display: block;
-    }
-    #menu-principal {
-        display: none;
-    }
-    #linha-superior {
-        display: block;
-    }
-}
-
-.bt-rola-mobile {
-    display: none;
-}
-
-.card {
-    background-color: #ffffff;
-    border-radius: 2px;
-    box-shadow: 0px 0px 5px #999999;
-    border-top: 3px solid rgba(0,212,255,1);
-}
-
-table {
-    width: 100%;
-}
-
-td {
-    text-overflow: ellipsis;
-    max-width: 100px;
-}
-
-label {
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis; 
-}
-
-.divblock {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 100;
-    background-color: rgba(255, 255, 255, .0);
-    width: 100%;
-    height: 100%;
-}
-
-.loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(255, 255, 255, .8);
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.loader > img {
-    width: 30%;
-}
-
-/*HISTORICO DE PRODUTOS*/
-.ui-helper-hidden-accessible { display:none; }
-
-.ui-corner-all {
-    background-color: #eeeeee;
-    color: #444444;
-    cursor: pointer;
-    padding-top: 5px;
-    width: 30%;
-    white-space: nowrap; 
-    overflow: hidden;
-    text-overflow: ellipsis;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+html {
+    scroll-behavior: smooth;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    overflow-x: hidden;
+}
+
+a:link, a:visited, a:hover, a:active {
+    color: inherit;
+    text-decoration: none;
+    text-decoration-line: none;
+}
+
+ul {
+    list-style: none;
+}
+
+ul#principal {
+    padding-left: 0;
+}
+
+.linha-item {
+    width: 80%;
+}
+
+#menu-principal {
+    position: fixed;
+    height: 100%;
+    background: rgba(0,212,255,1);
+    background: linear-gradient(45deg, rgba(0,13,36,0.87718837535014) 0%, rgba(9,43,121,1) 16%, rgba(0,212,255,1) 100%);
+    /* box-shadow: 8px 0px 10px #cecece; */
+    top: 0;
+    left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: #ffffff;
+    font-weight: 500;
+    z-index: 999;
+}
+
+.gradient-azul {
+    /* background: linear-gradient(45deg, rgb(26, 217, 255) 0%, rgba(9,43,121,1) 75%, rgba(0,13,36,0.87718837535014) 100%); */
+    background-color: #800080;
+}
+
+.gradient-azul-menor {
+    /* background: linear-gradient(45deg, rgb(26, 217, 255) 0%, rgb(46, 70, 126) 100%); */
+    background-color: #800080;
+}
+
+.aba-ativa {
+    background-color: #ffffff;
+    color: #555555;
+}
+
+.aba {
+    cursor: pointer;
+}
+
+.item-menu {
+    cursor: pointer;
+    transition: .3s;
+    padding-top: 10px;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.item-menu-2 {
+    cursor: pointer;
+    transition: .3s;
+    padding-top: 10px;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.item-menu:hover {
+    color: #444444;
+}
+
+.ttacesso {
+    padding: 10px;
+    color: #444444;
+}
+
+.ttacesso > strong {
+    text-align: center;
+}
+
+/* MENU MOBILE */
+.cor-menu {
+    position: fixed;
+    display: none;
+    padding: 10px;
+    top: 0;
+    left: 0;
+    background: rgba(0,212,255,1);
+    background: linear-gradient(90deg, rgba(15, 60, 138, 0.877) 0%, rgba(9,43,121,1) 16%, rgba(0,212,255,1) 100%);
+    box-shadow: 5px 0px 5px #555555;
+    color: #ffffff;
+    font-weight: 500;
+    z-index: 998;
+}
+
+#linha-superior {
+    height: 50px;
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .cor-menu {
+        display: block;
+    }
+    #menu-principal {
+        display: none;
+    }
+    #linha-superior {
+        display: block;
+    }
+}
+
+.bt-rola-mobile {
+    display: none;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 2px;
+    box-shadow: 0px 0px 5px #999999;
+    border-top: 3px solid rgba(0,212,255,1);
+}
+
+table {
+    width: 100%;
+}
+
+td {
+    text-overflow: ellipsis;
+    max-width: 100px;
+}
+
+label {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+}
+
+.divblock {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: rgba(255, 255, 255, .0);
+    width: 100%;
+    height: 100%;
+}
+
+.loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 255, 255, .8);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.loader > img {
+    width: 30%;
+}
+
+/*HISTORICO DE PRODUTOS*/
+.ui-helper-hidden-accessible { display:none; }
+
+.ui-corner-all {
+    background-color: #eeeeee;
+    color: #444444;
+    cursor: pointer;
+    padding-top: 5px;
+    width: 30%;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

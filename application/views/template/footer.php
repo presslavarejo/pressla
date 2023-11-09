@@ -27,6 +27,7 @@
 		
 		<script src="<?php echo base_url('./assets/js/bootstrap.min.js') ?>"></script>
 		<script src="<?php echo base_url('./assets/js/jpdf.js') ?>"></script>
+		<script src="<?php echo base_url('./assets/js/icones.js') ?>"></script>
 		<!-- <script src="<?php echo base_url('./assets/js/html2canvas.min.js') ?>"></script> -->
 	</body>
 </html>

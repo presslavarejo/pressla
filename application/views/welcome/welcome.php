@@ -104,7 +104,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="col">
-                                        <input type="text" name="cnpj" id="cnpj" class='form-control mb-3 cnpj' placeholder='Digite o CNPJ da sua empresa'>        
+                                        <input type="text" name="cnpj" id="cnpj" class='form-control mb-3 cnpj' placeholder='Digite o CNPJ da sua empresa' required>        
                                     </div>
                                 </div>
                                 <div class="form-row">
@@ -187,7 +187,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <?php echo $id == 0 ? "Ocorreu algum problema durante o processamento do seu cadastro. Por favor, tente novamente mais tarde." : "Tenho certeza que vai adorar essa ferramenta incrível que preparamos pensando em você."; ?>
+                        <?php echo $id == 0 ? "Ocorreu algum problema durante o processamento do seu cadastro. Por favor, tente novamente mais tarde." : ($id == 2 ? "A loja que você está tentando cadastrar já possui acesso ao nosso sistema." : "Tenho certeza que vai adorar essa ferramenta incrível que preparamos pensando em você."); ?>
                     </div>
                     <div class="modal-footer">
                         <?php if ($id == 1){ ?>

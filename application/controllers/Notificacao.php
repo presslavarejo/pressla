@@ -35,7 +35,7 @@ class Notificacao extends CI_Controller {
                 'ultima_atualizacao' => date("Y-m-d H:i:s")
             );
             $this->transacao_model->updateTransacao($payment->{'external_reference'}, $dataUpdate);
-            if($transa = $this->transacao_model->getTransacao($payment->{'external_reference'})){
+            if($transa = $this->transacao_model->getTransacao($payment->{'external_reference'}) && $payment->{'status_detail'} == "accredited"){
                 $this->transacao_model->liberaItens($transa->id_cliente,$transa->quantidade);
             }
         } else {

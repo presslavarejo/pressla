@@ -1,0 +1,1 @@
+(function(n){const o=n["jv"]=n["jv"]||{};o.dictionary=Object.assign(o.dictionary||{},{"%0 of %1":"%0 saking %1","Document colors":"Warni dokumen","Font Color":"Warni aksara","Remove color":"Busek warni","Show more items":"Tampilaken langkung kathah"});o.getPluralForm=function(n){return 0}})(window.CKEDITOR_TRANSLATIONS||(window.CKEDITOR_TRANSLATIONS={}));

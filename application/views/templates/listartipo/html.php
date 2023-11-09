@@ -1,4 +1,5 @@
-<div class='col offset-md-2'>
+<div class="col-2" id="comptela"></div>
+<div class='col' id="tela">
     <h1 class="header" style='padding:10px;'><a  href="<?=base_url('index.php/templates/tipos');?>">Categorias </a><small class="text-muted">Gerenciamento de Categorias</small> <a href="<?php echo base_url('index.php/templates/adicionartipo'); ?>" class="btn btn-success btn-sm text-white"> + </a> </h1>
     <hr>
 

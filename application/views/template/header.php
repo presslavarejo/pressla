@@ -19,6 +19,6 @@
     <script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>
     <script src="<?php echo base_url('assets/js/jquery.mask.min.js') ?>"></script>
 		
-    <div class='container-fluid'>
+    <div class='container-fluid h-100'>
       <div class='row'><div class='col' id='linha-superior'></div></div>
-      <div class='row'>
+      <div class='row h-100'>

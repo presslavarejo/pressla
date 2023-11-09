@@ -6,6 +6,7 @@ class DadosCliente extends CI_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('login_model');
+		$this->load->model('integracao_model');
 		$this->login_model->verificarLogin();
     }
 
@@ -38,7 +39,8 @@ class DadosCliente extends CI_Controller {
 		$v = "0";
 		if ($this->input->post('id')) {
 			$id = $this->input->post('id');
-			$logocliente = $this->clientes_model->getClientes($id)->logomarca;
+			$cli = $this->clientes_model->getClientes($id);
+			$logocliente = $cli->logomarca;
 			$configuracao = array(
 				'file_name'     =>  $logocliente
 			);
@@ -71,13 +73,25 @@ class DadosCliente extends CI_Controller {
 				'cep' => $this->input->post('cep'),
 				'login' => $this->input->post('login'),
 				'senha' => $this->encryption->encrypt($this->input->post('senha')),
-				'logomarca' => $configuracao['file_name']
+				'logomarca' => $configuracao['file_name'],
+				'cad_novo' => $this->input->post('cnpj') ? 0 : 1,
+				'sessao' => $this->input->post('sessao'),
+				'token' => $this->input->post('token')
 			);
+
+			if($cli->cad_novo == 1 && $this->input->post('cnpj')){
+				$cliente["impressoes"] = 10;
+			}
 
 			if ($this->clientes_model->updateCliente($id, $cliente)) {
 				$v = "1";
 			}
 			header('Location: '.base_url('index.php/dadoscliente/gerenciar/').$v);
 		}
+	}
+
+	function verificaClienteCnpj($id, $cnpj){
+		$cnpj = str_replace("barra", "/", $cnpj);
+		echo $this->clientes_model->verificaClienteCnpj($id, $cnpj);
 	}
 }

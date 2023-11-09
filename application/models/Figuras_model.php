@@ -19,11 +19,25 @@ class Figuras_model extends CI_model
      */
     public function getFiguras() {
         $this->db->order_by('nome');
+        if($this->session->userdata('logado')['tipo'] == 2){
+            $this->db->where('id_cliente', $this->session->userdata('logado')['id']);
+        }
 		return $this->db->get('figuras')->result();
-    }	
+    }
+    
+    public function getFigurasCriar() {
+        $this->db->order_by('nome');
+        if($this->session->userdata('logado')['tipo'] == 2){
+            $this->db->where('id_cliente = '.$this->session->userdata('logado')['id']." OR id_cliente = 0");
+        }
+		return $this->db->get('figuras')->result();
+    }
 
     public function getFigura($id) {
         $this->db->where('id', $id);
+        if($this->session->userdata('logado')['tipo'] == 2){
+            $this->db->where('id_cliente', $this->session->userdata('logado')['id']);
+        }
 		return $this->db->get('figuras')->row();
     }	
     /**
@@ -33,6 +47,9 @@ class Figuras_model extends CI_model
      */
     public function updateFigura($id, $figura) {
         $this->db->where('id', $id);
+        if($this->session->userdata('logado')['tipo'] == 2){
+            $this->db->where('id_cliente', $this->session->userdata('logado')['id']);
+        }
         return $this->db->update('figuras', $figura);
     }
     /**
@@ -40,6 +57,9 @@ class Figuras_model extends CI_model
     */
     public function deleteFigura($id) {
         $this->db->where('id', $id);
+        if($this->session->userdata('logado')['tipo'] == 2){
+            $this->db->where('id_cliente', $this->session->userdata('logado')['id']);
+        }
         return $this->db->delete('figuras');
     }
 }

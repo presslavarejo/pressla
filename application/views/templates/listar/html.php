@@ -1,4 +1,39 @@
-<div class='col offset-md-2'>
+<?php
+$array_layouts = [
+"SEM LAYOUT DEFINIDO",
+"Sem Imagem",
+"Com Imagem",
+"Cartão da Loja",
+"Clube Fidelidade",
+"Layout Horizontal",
+"Faixas para Gôndolas",
+"Banner Bolsão A2 Vertical",
+"Atacado",
+"Com Imagem 2",
+"Atacado e Varejo - Horizontal",
+"Varejo - Horizontal",
+"2 Preços - Sem Imagem 2",
+"Sem Imagem 2",
+"Bolsão A3x4 - Horizontal",
+"2 Preços - Sem Imagem",
+"2 preços Horizontal sem imagem 8x20",
+"1 preço Horizontal sem imagem 8x20",
+"Banner A2 Vertical",
+"Tabloide 11 Produtos",
+"Tabloide 12 Produtos",
+"Horizontal 17x12 sem imagem",
+"Horizontal 17x12 com imagem",
+"Horizontal 17x12 tabloide",
+"NÃO UTILIZADO",
+"1 Preço horizontal - Sem imagem 42x30",
+"",
+"Horizontal P1",
+"Vertical G1"
+];
+?>
+<link rel="stylesheet" href="<?= base_url("assets/js/tables/datatables.min.css") ?>">
+<div class="col-2" id="comptela"></div>
+<div class='col' id="tela">
     <h1 class="header" style='padding:10px;'><a  href="<?=base_url('index.php/templates/');?>">Templates </a><small class="text-muted">Gerenciamento de templates</small> <a href="<?php echo base_url('index.php/templates/adicionar'); ?>" class="btn btn-success btn-sm text-white"> + </a> </h1>
     <hr>
 
@@ -11,6 +46,7 @@
                             <?php if(count($templates) > 0) {?>        
                             <th>Nome</th>
                             <th>Categorias</th>
+                            <th>Layouts</th>
                             <th></th>
                             <?php } else {echo "Não há templates cadastrados.";}?>
                         </tr>
@@ -32,6 +68,7 @@
 								}
                             ?>
                             </td>
+                            <td class='esp'><?=$array_layouts[$template->layout]?></td>
                             <td class='text-right text-white'>
                                 <a role="button" href="<?=base_url('index.php/templates/gerenciar/'.$template->id)?>" class="m-1 btn btn-primary">Alterar</a>
                                 <a role="button" class="m-1 btn btn-danger" onClick="deletarTemplate(<?=$template->id?>)" >Excluir</a>
@@ -80,3 +117,4 @@
         </div>
     </div>
 </div>
+<script src="<?= base_url("assets/js/tables/datatables.min.js") ?>"></script>

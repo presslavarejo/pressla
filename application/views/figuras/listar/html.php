@@ -1,11 +1,13 @@
-<div class='col offset-md-2'>
+<link rel="stylesheet" href="<?= base_url("assets/js/tables/datatables.min.css") ?>">
+<div class="col-2" id="comptela"></div>
+<div class='col' id="tela">
     <h1 class="header" style='padding:10px;'>Figuras <small class="text-muted">Gerenciamento de figuras</small> <a href="<?php echo base_url('index.php/figuras/adicionar'); ?>" class="btn btn-success btn-sm text-white"> + </a> </h1>
     <hr>
 
     <div class="card p-4">
         <div class="row">
             <div class="col-12">
-                <table class="table-striped" id="tabela-templates">
+                <table class="table-striped" id="tabela-figuras">
                     <thead class="thead-dark">
                         <tr>
                             <?php if(count($figuras) > 0) {?>        
@@ -67,3 +69,4 @@
         </div>
     </div>
 </div>
+<script src="<?= base_url("assets/js/tables/datatables.min.js") ?>"></script>

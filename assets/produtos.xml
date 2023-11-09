@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Produtos>
+    <Produto>
+        <NCM>2022.12.21</NCM>
+        <SKU>cscs4564c6s4</SKU>
+        <DESCRICAO>Refrigerante;Coca-cola;Lata</DESCRICAO>
+        <PRECO>3.90</PRECO>
+        <PRECOPROMOCIONAL>3.45</PRECOPROMOCIONAL>
+		<CATEGORIA>11</CATEGORIA>
+        <UNIDADE>Un.</UNIDADE>
+    </Produto>
+    <Produto>
+        <NCM>2022.12.22</NCM>
+        <SKU>sfs4564c6s4</SKU>
+        <DESCRICAO>Refrigerante;Guaraná Antartica;Lata</DESCRICAO>
+        <PRECO>3.25</PRECO>
+        <PRECOPROMOCIONAL>2.99</PRECOPROMOCIONAL>
+		<CATEGORIA>11</CATEGORIA>
+        <UNIDADE>Un.</UNIDADE>
+    </Produto>
+    <Produto>
+        <NCM>2022.12.23</NCM>
+        <SKU>cdds4564c6s4</SKU>
+        <DESCRICAO>Refrigerante;Fanta Uva;Lata</DESCRICAO>
+        <PRECO>3.22</PRECO>
+        <PRECOPROMOCIONAL>3.02</PRECOPROMOCIONAL>
+		<CATEGORIA>11</CATEGORIA>
+        <UNIDADE>Un.</UNIDADE>
+    </Produto>
+    <Produto>
+        <NCM>2022.12.24</NCM>
+        <SKU>cdda4564c6s4</SKU>
+        <DESCRICAO>Refrigerante;Sprite;Lata</DESCRICAO>
+        <PRECO>2.99</PRECO>
+        <PRECOPROMOCIONAL>2.75</PRECOPROMOCIONAL>
+		<CATEGORIA>11</CATEGORIA>
+        <UNIDADE>Un.</UNIDADE>
+    </Produto>
+</Produtos>

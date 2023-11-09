@@ -64,6 +64,10 @@ class Clientes extends CI_Controller {
 	public function add() {
 		$v = "0";
 		if ($this->input->post('nome')) {
+			if ($this->clientes_model->verificaCnpj($this->input->post('cnpj'))) {
+				header('Location: '.base_url('index.php/clientes/adicionar/0'));
+				exit();
+			}
 			$configuracao = array(
 				'file_name'     =>  null
 			);
@@ -102,8 +106,12 @@ class Clientes extends CI_Controller {
 				'tipo' => $this->input->post('tipo'),
 				'ativo' => $this->input->post('ativo'),
 				'assinatura' => $this->input->post('assinatura'),
+				'tabloid' => $this->input->post('tabloid') ? 1 : 0,
 				'fechamento' => $this->input->post('fechamento'),
-				'logomarca' => $configuracao['file_name']
+				'logomarca' => $configuracao['file_name'],
+				'cad_novo' => $this->input->post('cnpj') ? 0 : 1,
+				'sessao' => $this->input->post('sessao'),
+				'token' => $this->input->post('token')
 			);
 			$resposta = $this->clientes_model->addCliente($cliente);
 			if ($resposta) {
@@ -158,8 +166,11 @@ class Clientes extends CI_Controller {
 				'tipo' => $this->input->post('tipo'),
 				'ativo' => $this->input->post('ativo'),
 				'assinatura' => $this->input->post('assinatura'),
+				'tabloid' => $this->input->post('tabloid') ? 1 : 0,
 				'fechamento' => $this->input->post('fechamento'),
-				'logomarca' => $configuracao['file_name']
+				'logomarca' => $configuracao['file_name'],
+				'sessao' => $this->input->post('sessao'),
+				'token' => $this->input->post('token')
 			);
 
 			if ($this->clientes_model->updateCliente($id, $cliente)) {

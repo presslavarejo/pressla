@@ -1,4 +1,5 @@
-<div class='col offset-md-2'>
+<div class="col-2" id="comptela"></div>
+<div class='col' id="tela">
     <div id="alerta-sucesso" class="alert alert-success hide" role="alert" style='display:none;'>
         Dados atualizados com sucesso!
     </div>
@@ -6,7 +7,7 @@
         Ocorreu um erro! Tente novamente.
     </div>
 
-    <h1 class="header" style='padding:10px;'>Meus Dados <small class="text-muted">Gerenciamento de dados</small></h1>
+    <h1 class="header" style='padding:10px;'>Perfil do Cliente</h1>
     <hr>
 
     <div class="card p-4">
@@ -38,7 +39,10 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">CNPJ</span>
                         </div>
-                        <input name="cnpj" id="cnpj" type="text" class="form-control" value="<?=$cliente->cnpj?>"/>
+                        <input name="cnpj" id="cnpj" type="text" class="form-control cnpj" value="<?=$cliente->cnpj?>" required/>
+                        <div class="invalid-feedback">
+                            CNPJ inválido.
+                        </div>
                     </div>
                 </div>
                 <div class="col-sm col-12">
@@ -208,6 +212,34 @@
         </form>
     </div>
 
+    <div class="card p-3 mt-2 mb-3" style="box-sizing:border-box">
+        <div class="row mb-3">
+            <div class="col">
+                <strong>INTEGRAÇÃO COM WHATSAPP</strong>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-4 mb-2">
+                <label class="mb-2">Nome da Sessão</label>
+                <input type="text" name="sessao" class="form-control" value="<?=$cliente->sessao?>">
+            </div>
+            <div class="col-md-4 mb-2">
+                <label class="mb-2">Token da Sessão</label>
+                <input type="text" name="token" class="form-control" value="<?=$cliente->token?>">
+            </div>
+            <div class="col-md-4 mb-2">
+                <label class="mb-2 w-100 text-center">Seu QrCode</label>
+                <div class="progress m-2" style="display:none" id="progresso-qrcode">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">CARREGANDO...</div>
+                </div>
+                <div id="container-qrcode" class="text-center">
+                    <input type="button" value="GERAR QRCODE" class="btn btn-success" onclick="gerarQrCode()">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="modalAviso" tabindex="-1" role="dialog" aria-labelledby="modalAvisoLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -225,3 +257,41 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $("#cnpj").mask("00.000.000/0000-00");
+    });
+
+    function gerarQrCode(){
+        var sessao = $("[name=sessao]").val();
+        var token = $("[name=token]").val();
+
+        if(sessao && token){
+            atualizaQrCode(sessao, token,true);
+        } else {
+            alert("Preencha os campos corretamente");
+        }
+    }
+
+    function atualizaQrCode(sessao, token, progresso=false){
+        if(progresso){
+            $("#progresso-qrcode").show();
+        }
+        $.get("<?= base_url("index.php/integracao/echoQrCode/") ?>"+sessao+"/"+token, function(image){
+            $("#progresso-qrcode").hide();
+            var json = JSON.parse(image);
+            if(json.status){
+                if(json.msg.indexOf("<img") != -1){
+                    $("#container-qrcode").html(json.msg);
+                    setTimeout(() => {
+                        atualizaQrCode(sessao, token);
+                    }, 10000);
+                } else {
+                    $("#container-qrcode").html("O QrCode não pode ser gerado. É possível que você já esteja conectado ou que a API esteja passando por instabilidades no momento.");
+                }
+            } else {
+                alert(json.msg);
+            }
+        });
+    }
+</script>

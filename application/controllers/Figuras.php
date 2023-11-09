@@ -8,7 +8,6 @@ class Figuras extends CI_Controller {
 		$this->load->model('figuras_model');
 		$this->load->model('login_model');
 		$this->login_model->verificarLogin();
-		$this->login_model->checkAdmin();
     }
 
 	public function index() {
@@ -82,7 +81,8 @@ class Figuras extends CI_Controller {
                     $figura = array(
                         'nome' => $this->input->post('nome'),
                         'src' => $configuracao['file_name'],
-                        'ean' => $this->input->post('ean')
+                        'ean' => $this->input->post('ean'),
+                        'id_cliente' => $this->session->userdata('logado')['tipo'] == 2 ? $this->session->userdata('logado')['id'] : "0"
                     );
                     if($this->figuras_model->addFigura($figura)){
                         $v = "1";
@@ -115,6 +115,9 @@ class Figuras extends CI_Controller {
                     $this->upload->initialize($configuracao);
                     
                     if($this->upload->do_upload('src')){
+                        if($figura['src'] && file_exists(APPPATH."../assets/img/figuras/".$figura['src'])){
+                            unlink(APPPATH."../assets/img/figuras/".$figura['src']);                        
+                        }
                         $figura['src'] = $configuracao['file_name'];
                     }
                 }
@@ -134,8 +137,8 @@ class Figuras extends CI_Controller {
         if (!$this->figuras_model->deleteFigura($id)) {
             echo 'erro-500';
         } else {
-            if(file_exists(base_url('assets/images/figuras/'.$figura->src))){
-                unlink(base_url('assets/images/figuras/'.$figura->src));
+            if(file_exists(APPPATH."../assets/img/figuras/".$figura->src)){
+                unlink(APPPATH."../assets/img/figuras/".$figura->src);                        
             }
         }
 	}

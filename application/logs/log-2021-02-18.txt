@@ -1,2 +1,0 @@
-ERROR - 2021-02-18 10:23:15 --> Severity: Warning --> mysqli::real_connect(): (HY000/1045): Access denied for user 'FPare_cartaz'@'localhost' (using password: YES) C:\xampp\htdocs\pressla\system\database\drivers\mysqli\mysqli_driver.php 203
-ERROR - 2021-02-18 10:23:15 --> Unable to connect to the database

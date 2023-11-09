@@ -31,7 +31,7 @@
             contato.email = $('.email-contato', this).val()
             contato.cargo = $('.cargo-contato', this).val()
             resposta.push(contato)
-        })
+        });
         return resposta
     }
     
@@ -81,6 +81,7 @@
                     </div>
                 </div>
             </div>
-        `)
+        `);
+        $(".telefone-contato").mask("(00) 00000-0000");
     })
 </script>

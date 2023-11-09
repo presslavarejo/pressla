@@ -1,4 +1,5 @@
-<div class='col offset-md-2'>
+<div class="col-2" id="comptela"></div>
+<div class='col' id="tela">
     <div id="alerta-sucesso" class="alert alert-success hide" role="alert" style='display:none;'>
         Dados atualizados com sucesso!
     </div>
