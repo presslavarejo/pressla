@@ -111,7 +111,8 @@ class Clientes extends CI_Controller {
 				'logomarca' => $configuracao['file_name'],
 				'cad_novo' => $this->input->post('cnpj') ? 0 : 1,
 				'sessao' => $this->input->post('sessao'),
-				'token' => $this->input->post('token')
+				'token' => $this->input->post('token'),
+				'planilha' => $this->input->post('planilha')
 			);
 			$resposta = $this->clientes_model->addCliente($cliente);
 			if ($resposta) {
@@ -170,7 +171,8 @@ class Clientes extends CI_Controller {
 				'fechamento' => $this->input->post('fechamento'),
 				'logomarca' => $configuracao['file_name'],
 				'sessao' => $this->input->post('sessao'),
-				'token' => $this->input->post('token')
+				'token' => $this->input->post('token'),
+				'planilha' => $this->input->post('planilha')
 			);
 
 			if ($this->clientes_model->updateCliente($id, $cliente)) {

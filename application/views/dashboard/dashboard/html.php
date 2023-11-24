@@ -128,26 +128,38 @@
         }
     ?>
     <div class="row justify-content-center mb-3">
-        <div class="col-md-3 mb-2">
-            <div class="card">
+        <div class="col-md-4 mb-2">
+            <div class="card" style="height:150px">
                 <div class="row px-3 py-2">
                     <div class="col text-secondary">Cartazes Gerados Hoje</div>
                 </div>
                 <div class="row px-3 py-0">
                     <div class="col text-dark">
-                        <h1 class="text-center" style="font-size:90pt"><?= $historico_dia ? $historico_dia->quantidade : 0 ?></h1>
+                        <h1 class="text-center" style="font-size:60pt"><?= $historico_dia ? $historico_dia[0]->quantidade : 0 ?></h1>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-2">
-            <div class="card">
+        <div class="col-md-4 mb-2">
+            <div class="card" style="height:150px">
                 <div class="row px-3 py-2">
                     <div class="col text-secondary">Cartazes Gerados no Mês</div>
                 </div>
                 <div class="row px-3 py-0">
                     <div class="col text-dark">
-                        <h1 class="text-center" style="font-size:90pt"><?= $historico_mes ? $historico_mes->quantidade : 0 ?></h1>
+                        <h1 class="text-center" style="font-size:60pt"><?= $historico_mes ? $historico_mes[0]->quantidade : 0 ?></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-2">
+            <div class="card" style="height:150px">
+                <div class="row px-3 py-2">
+                    <div class="col text-secondary">Créditos disponíveis</div>
+                </div>
+                <div class="row px-3 py-0 h-100 align-items-center">
+                    <div class="col text-dark">
+                        <h1 class="text-center" style="font-size:60pt"><?= $cliente->assinatura == 2 ? "-" : $cliente->impressoes ?></h1>
                     </div>
                 </div>
             </div>

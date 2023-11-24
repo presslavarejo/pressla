@@ -46,12 +46,44 @@ class Dashboard extends CI_Controller {
 			'templates' => $this->templates_model->getTiposTemplates(),
 			'figuras' => $this->figuras_model->getFigurasCriar(),
 			'imgtemplates' => $this->templates_model->getTemplates(),
-			'produtos' => $this->produtos_model->getProdutos(["id_cliente = ".$this->session->userdata('logado')['id']], "descricao ASC"),
 			'id' => $this->session->userdata('logado')['id'],
 			'lay' => $lay,
 			'tipos' => $this->templates_model->getTipos(),
 			'cliente' => $this->clientes_model->getClientes($this->session->userdata('logado')['id'])
 		);
+
+		if($data['cliente'] && $data['cliente']->planilha && ($data['cliente']->planilha != null || $data['cliente']->planilha != '')) {
+			$produtos = json_decode($this->buscaProdutos(0, 0, 1, $data['cliente']->planilha));
+
+			if(isset($produtos->values)){
+				$produtos = $produtos->values;
+			} else {
+				$produtos = array();
+			}
+
+			// {"id":"17","id_cliente":"11","ncm":"1124.44.55","sku":"121315SSS11","categoria":"13","descricao":"BISCOITINHO CEREJA CARAMELIZADA 80G","linha1":"BISCOITINHO","linha2":"CEREJA CARAMELIZADA","linha3":"80G","preco":"2.99","preco_promocional":"2.49","unidade":"Un.","data_cadastro":"2022-10-04 14:28:12","data_ultima_atualizacao":"2022-10-04 14:28:12","nome_categoria":"Biscoitos"}
+			$produtos = array_map(function($item) {
+				return array(
+					"id" => uniqid(),
+					"id_cliente" => "",
+					"ncm" => $item[1],
+					"sku" => $item[2],
+					"categoria" => $item[5],
+					"descricao" => $item[0],
+					"linha1" => "",
+					"linha2" => "",
+					"linha3" => "",
+					"preco" => $item[3],
+					"preco_promocional" => $item[4],
+					"unidade" => $item[6]
+				);
+			}, $produtos);
+
+			$data['produtos'] = json_encode($produtos);
+			
+		} else {
+			$data['produtos'] = $this->produtos_model->getProdutos(["id_cliente = ".$this->session->userdata('logado')['id']], "descricao ASC");
+		}
 		
 		
 		$this->load->view('template/header', $data);
@@ -243,5 +275,54 @@ class Dashboard extends CI_Controller {
 		// fputcsv($fileHandle , explode(";", "1;177;A4;Mercadillo Black;100;PRODUTO LINHA 1;PRODUTO LINHA 2;PRODUTO LINHA 3;123456;Oferta válida enquanto durarem nossos estoques;12,32;#FF0000;15,23;#000000;KG;"), ";");
 		fputcsv($fileHandle, $ar, ";");
 		fclose($fileHandle);
+	}
+
+	public function buscaProdutos($categoria, $quantidade, $pagina, $planilha){
+		// ID da planilha (extraído da URL da planilha)
+		$spreadsheetId = $planilha;
+
+		// Intervalo da planilha que você deseja obter (por exemplo, 'Sheet1'!A1:B10)
+		$de  = $pagina == 1 ? 2 : (1 + ($quantidade*($pagina-1)));
+		$ate = $pagina == 1 ? ($quantidade + 1) : (1 + ($quantidade*($pagina)));
+		
+		// Sua chave de API do Google
+		$apiKey = 'AIzaSyA089Pws7JhNwDs7KTZLxOstx5UCNE4clw';
+
+		if($quantidade == 0){
+			$range = "Produtos!A2:H?majorDimension=ROWS";
+		} else {
+			$range = "Produtos!A$de:H$ate?majorDimension=ROWS";	
+		}
+		
+		// URL da API do Google Sheets
+		$url = "https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/$range&key=$apiKey";
+
+		// Inicializar cURL
+		$ch = curl_init($url);
+
+		// Configurar opções do cURL
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		// Fazer a solicitação HTTP GET
+		$response = curl_exec($ch);
+
+		// Verificar se houve algum erro na solicitação
+		if (curl_errno($ch)) {
+			echo 'Erro ao obter dados da planilha: ' . curl_error($ch);
+		}
+
+		// Fechar a sessão cURL
+		curl_close($ch);
+
+		$response = json_decode($response);
+
+		if (!isset($response->code) && $categoria != 0) {
+			$values = $response->values;
+			$values = array_filter($values, function($value) use ($categoria){return $value[5] == $categoria;});	
+
+			$response->values = $values;
+		}
+
+		return json_encode($response);
 	}
 }

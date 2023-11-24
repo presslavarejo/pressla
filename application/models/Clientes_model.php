@@ -234,4 +234,16 @@ class Clientes_model extends CI_model
         }
         return $this->db->get('new_historico_impressoes as h')->result();
     }
+
+    // PLANILHAS
+    public function setplanilhas($array){
+        return $this->db->insert('cliente_planilha', $array);
+    }
+
+    public function getplanilhas($id){
+        $this->db->distinct('*');
+        $this->db->where("id_cliente = $id");
+        $this->db->order_by('time DESC');
+        return $this->db->get('cliente_planilha')->result();
+    }
 }

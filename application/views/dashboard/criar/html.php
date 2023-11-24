@@ -1260,7 +1260,7 @@ main .ck-editor[role='application'] .ck.ck-content,
     }
 </script>
 <script>
-    var todosprodutos = <?= $produtos ? json_encode($produtos) : "[]" ?>;
+    var todosprodutos = <?= $produtos ? (is_array($produtos) ? json_encode($produtos) : $produtos) : "[]" ?>;
     var descproduto = [["Produto", "#000000"],["", "#000000"],["", "#000000"]];
     var Editor_master = null;
 
@@ -1277,7 +1277,7 @@ main .ck-editor[role='application'] .ck.ck-content,
                 result.forEach((item) => {
                     $("#auto-list").append(
                         `<li onclick="escolheAuto(
-                            ${item.id}, 
+                            '${item.id}', 
                             '${item.descricao} <|> ${item.preco} <|> ${item.preco_promocional}', 
                             ['${item.linha1 ? item.linha1 : false}', '${item.linha2 ? ""+item.linha2 : false}', '${item.linha3 ? ""+item.linha3 : false}']
                         )">

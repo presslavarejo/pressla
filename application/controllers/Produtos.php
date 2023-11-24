@@ -18,143 +18,180 @@ class Produtos extends CI_Controller {
     }
 
 	public function index() {
-		// SUBIR ARQUIVOS EM MASSA
-		$colunas = 8;
-		$categoria = 0;
-		if($this->input->method() === 'post'){
-			if($this->input->post('filtro_categoria')){
-				$categoria = $this->input->post('filtro_categoria');
-			}
-			
-			else if($this->input->post('acao') && $this->input->post('acao') == "excluir_massa" && $this->input->post('produtos_selecionados_modal')){
-				$this->produtos_model->deleteProdutosMassa($this->input->post('produtos_selecionados_modal'));
-			}
+		$cliente = $this->clientes_model->getClientes($this->session->userdata('logado')['id']);
 
-			else if($this->input->post('acao') && $this->input->post('acao') == "alterar_categorias_massa" && $this->input->post('produtos_selecionados_modal') && $this->input->post('categoria_modal')){
-				$this->produtos_model->updateCampoProdutosMassa(array('categoria' => $this->input->post('categoria_modal')), $this->input->post('produtos_selecionados_modal'));
-			}
-			
-			else {
-				if($_FILES != null){
-					$arquivo = $_FILES['arquivoxml']["tmp_name"];
-					$ext = pathinfo($_FILES['arquivoxml']['name'], PATHINFO_EXTENSION);
-					
-					if($ext == 'xml'){
-					
-						$link = $arquivo;
-						//link do arquivo xml
-						$xml = simplexml_load_file($link) -> Produto;
-	
-						foreach($xml as $item){
-							$produto = array(
-								'id_cliente' => $this->session->userdata('logado')['id'],
-								'ncm' => $item -> NCM,
-								'sku' => strtoupper($item -> SKU),
-								'categoria' => isset($item -> SKU) ? $item -> SKU : 1,
-								'descricao' => $item -> DESCRICAO,
-								'preco' => str_replace(",",".",$item -> PRECO),
-								'preco_promocional' => str_replace(",",".",$item -> PRECOPROMOCIONAL),
-								'unidade' => isset($item -> UNIDADE) ? $item -> UNIDADE : "Un.",
-								'quantidade' => isset($item -> QUANTIDADE) ? $item -> QUANTIDADE : 1,
-								'data_cadastro' => date("Y-m-d H:i:s")
-							);
-			
-							$this->produtos_model->addProduto($produto);
-						}
-					
-					} else if($ext == "csv"){
-						$handle = fopen($arquivo, "r");
-	
-						$header = fgetcsv($handle, 1000, ",");
-						
-						// if(count($header) > 1){
-						// 	$virgula = true;
-						// 	$handle = fopen($arquivo, "r");
-						// 	$header = fgetcsv($handle, 1000, ";");
-						// 	$header = explode(",",utf8_encode($header[0]));
-						// } else {
-						// 	$header = explode(";",utf8_encode($header[0]));
-						// 	$virgula = false;
-						// }
-						if(count($header) > 1){
-							$separador = ",";
-							$handle = fopen($arquivo, "r");
-							$header = fgetcsv($handle, 1000, ";");
-							$header = explode(",",utf8_encode($header[0]));
-						} else if(mb_strpos(implode("-",$header), ";")) {
-							$header = explode(";",utf8_encode($header[0]));
-							$separador = ";";
-						} else if(mb_strpos(implode("-",$header), "\t")) {
-							$header = explode("\t",utf8_encode($header[0]));
-							$separador = "\t";
-						}
-	
-						// while(count($header) > $colunas){
-						// 	array_pop($header);
-						// }
-	
-						// while ($row = fgetcsv($handle, 1000, $virgula ? ";" : "\n")) {
-						// 	// echo var_dump(substr_count($row[0], ","));
-						// 	$linha = explode($virgula ? "," : ";",utf8_encode($row[0]));
-						// 	while(count($linha) > $colunas){
-						// 		array_pop($linha);
-						// 	}
-						// 	$nota[] = array_combine($header, $linha);
-						// }
-						while(count($header) > $colunas){
-							array_pop($header);
-						}
-	
-						while ($row = fgetcsv($handle, 1000, $separador == "," ? ";" : "\n")) {
-							$linha = explode($separador, utf8_encode($row[0]));
-							while(count($linha) > $colunas){
-								array_pop($linha);
-							}
-							$nota[] = array_combine($header, $linha);
-						}
-	
-						if(isset($nota)){
-							foreach($nota as $nt){
-								if($nt["DESCRICAO"]){
-									$produto = array(
-										'id_cliente' => $this->session->userdata('logado')['id'],
-										'ncm' => $nt["NCM"],
-										'sku' => strtoupper($nt["SKU"]),
-										'categoria' => isset($nt["CATEGORIA"]) ? $nt["CATEGORIA"] : 1,
-										'descricao' => utf8_decode($nt["DESCRICAO"]),
-										'preco' => str_replace(",",".",$nt["PRECO"]),
-										'preco_promocional' => str_replace(",",".",$nt["PRECO PROMOCIONAL"]),
-										'unidade' => isset($nt["UNIDADE"]) ? utf8_decode($nt["UNIDADE"]) : "Un.",
-										'data_cadastro' => date("Y-m-d H:i:s")
-									);
-					
-									$this->produtos_model->addProduto($produto);
-								}
-							}
-						}
-						
-						fclose($handle);
-					}
-	
-					header("Location: ".base_url("index.php/produtos"));
-					exit;
+		if($cliente && $cliente->planilha && ($cliente->planilha != null || $cliente->planilha != '')) {
+			$categoria = 0;
+			$quantidade = 10;
+			$pagina = 1;
+
+			if($this->input->method() === 'post'){
+				if($this->input->post('filtro_categoria')){
+					$categoria = $this->input->post('filtro_categoria');
+				}
+
+				if($this->input->post('filtro_quantidade') || $this->input->post('filtro_quantidade') === "0"){
+					$quantidade = $this->input->post('filtro_quantidade');
+				}
+
+				if($this->input->post('filtro_pagina')){
+					$pagina = $this->input->post('filtro_pagina');
 				}
 			}
+
+			$planilha = $cliente->planilha;
+
+			$data = array(
+				'title' => 'Pressla | Meus Produtos do Google Sheets',
+				'localPath' => 'produtos/produtossheets',
+				'produtos' => $this->buscaProdutos($categoria, $quantidade, $pagina, $planilha),
+				'planilha' => $planilha,
+				'categoria_atual' => $categoria,
+				'pagina_atual' => $pagina,
+				'quantidade_atual' => $quantidade,
+				'templates' => $this->templates_model->getTiposTemplates(),
+				'id' => $this->session->userdata('logado')['id']
+			);
+		
+		} else {
+			// SUBIR ARQUIVOS EM MASSA
+			$colunas = 8;
+			$categoria = 0;
+			if($this->input->method() === 'post'){
+				if($this->input->post('filtro_categoria')){
+					$categoria = $this->input->post('filtro_categoria');
+				}
+				
+				else if($this->input->post('acao') && $this->input->post('acao') == "excluir_massa" && $this->input->post('produtos_selecionados_modal')){
+					$this->produtos_model->deleteProdutosMassa($this->input->post('produtos_selecionados_modal'));
+				}
+
+				else if($this->input->post('acao') && $this->input->post('acao') == "alterar_categorias_massa" && $this->input->post('produtos_selecionados_modal') && $this->input->post('categoria_modal')){
+					$this->produtos_model->updateCampoProdutosMassa(array('categoria' => $this->input->post('categoria_modal')), $this->input->post('produtos_selecionados_modal'));
+				}
+				
+				else {
+					if($_FILES != null){
+						$arquivo = $_FILES['arquivoxml']["tmp_name"];
+						$ext = pathinfo($_FILES['arquivoxml']['name'], PATHINFO_EXTENSION);
+						
+						if($ext == 'xml'){
+						
+							$link = $arquivo;
+							//link do arquivo xml
+							$xml = simplexml_load_file($link) -> Produto;
+		
+							foreach($xml as $item){
+								$produto = array(
+									'id_cliente' => $this->session->userdata('logado')['id'],
+									'ncm' => $item -> NCM,
+									'sku' => strtoupper($item -> SKU),
+									'categoria' => isset($item -> SKU) ? $item -> SKU : 1,
+									'descricao' => $item -> DESCRICAO,
+									'preco' => str_replace(",",".",$item -> PRECO),
+									'preco_promocional' => str_replace(",",".",$item -> PRECOPROMOCIONAL),
+									'unidade' => isset($item -> UNIDADE) ? $item -> UNIDADE : "Un.",
+									'quantidade' => isset($item -> QUANTIDADE) ? $item -> QUANTIDADE : 1,
+									'data_cadastro' => date("Y-m-d H:i:s")
+								);
+				
+								$this->produtos_model->addProduto($produto);
+							}
+						
+						} else if($ext == "csv"){
+							$handle = fopen($arquivo, "r");
+		
+							$header = fgetcsv($handle, 1000, ",");
+							
+							// if(count($header) > 1){
+							// 	$virgula = true;
+							// 	$handle = fopen($arquivo, "r");
+							// 	$header = fgetcsv($handle, 1000, ";");
+							// 	$header = explode(",",utf8_encode($header[0]));
+							// } else {
+							// 	$header = explode(";",utf8_encode($header[0]));
+							// 	$virgula = false;
+							// }
+							if(count($header) > 1){
+								$separador = ",";
+								$handle = fopen($arquivo, "r");
+								$header = fgetcsv($handle, 1000, ";");
+								$header = explode(",",utf8_encode($header[0]));
+							} else if(mb_strpos(implode("-",$header), ";")) {
+								$header = explode(";",utf8_encode($header[0]));
+								$separador = ";";
+							} else if(mb_strpos(implode("-",$header), "\t")) {
+								$header = explode("\t",utf8_encode($header[0]));
+								$separador = "\t";
+							}
+		
+							// while(count($header) > $colunas){
+							// 	array_pop($header);
+							// }
+		
+							// while ($row = fgetcsv($handle, 1000, $virgula ? ";" : "\n")) {
+							// 	// echo var_dump(substr_count($row[0], ","));
+							// 	$linha = explode($virgula ? "," : ";",utf8_encode($row[0]));
+							// 	while(count($linha) > $colunas){
+							// 		array_pop($linha);
+							// 	}
+							// 	$nota[] = array_combine($header, $linha);
+							// }
+							while(count($header) > $colunas){
+								array_pop($header);
+							}
+		
+							while ($row = fgetcsv($handle, 1000, $separador == "," ? ";" : "\n")) {
+								$linha = explode($separador, utf8_encode($row[0]));
+								while(count($linha) > $colunas){
+									array_pop($linha);
+								}
+								$nota[] = array_combine($header, $linha);
+							}
+		
+							if(isset($nota)){
+								foreach($nota as $nt){
+									if($nt["DESCRICAO"]){
+										$produto = array(
+											'id_cliente' => $this->session->userdata('logado')['id'],
+											'ncm' => $nt["NCM"],
+											'sku' => strtoupper($nt["SKU"]),
+											'categoria' => isset($nt["CATEGORIA"]) ? $nt["CATEGORIA"] : 1,
+											'descricao' => utf8_decode($nt["DESCRICAO"]),
+											'preco' => str_replace(",",".",$nt["PRECO"]),
+											'preco_promocional' => str_replace(",",".",$nt["PRECO PROMOCIONAL"]),
+											'unidade' => isset($nt["UNIDADE"]) ? utf8_decode($nt["UNIDADE"]) : "Un.",
+											'data_cadastro' => date("Y-m-d H:i:s")
+										);
+						
+										$this->produtos_model->addProduto($produto);
+									}
+								}
+							}
+							
+							fclose($handle);
+						}
+		
+						header("Location: ".base_url("index.php/produtos"));
+						exit;
+					}
+				}
+			}
+
+			$data = array(
+				'title' => 'Pressla | Meus Produtos',
+				'produtos' => $this->produtos_model->getProdutos(["produtos.id_cliente = ".$this->session->userdata('logado')['id'], $categoria != 0 && $categoria != -1 ? "produtos.categoria = ".$categoria : ($categoria == "0" ? "produtos.id IS NOT NULL" : "produtos.categoria = 0")], "produtos.descricao ASC"),
+				'categoria_atual' => $categoria,
+				'localPath' => 'produtos/produtos',
+				'tamanhos' => $this->tamanhos_model->getTamanhos(),
+				'templates' => $this->templates_model->getTiposTemplates(),
+				'figuras' => [],
+				'imgtemplates' => $this->templates_model->getTemplates(),
+				'id' => $this->session->userdata('logado')['id'],
+				'tipos' => $this->templates_model->getTipos()
+			);
 		}
-
-		$data = array(
-            'title' => 'Pressla | Meus Produtos',
-            'localPath' => 'produtos/produtos',
-            'produtos' => $this->produtos_model->getProdutos(["produtos.id_cliente = ".$this->session->userdata('logado')['id'], $categoria != 0 && $categoria != -1 ? "produtos.categoria = ".$categoria : ($categoria == "0" ? "produtos.id IS NOT NULL" : "produtos.categoria = 0")], "produtos.descricao ASC"),
-			'categoria_atual' => $categoria,
-			'tamanhos' => $this->tamanhos_model->getTamanhos(),
-			'templates' => $this->templates_model->getTiposTemplates(),
-			'figuras' => [],
-			'imgtemplates' => $this->templates_model->getTemplates(),
-			'id' => $this->session->userdata('logado')['id'],
-			'tipos' => $this->templates_model->getTipos()
-        );
-
+		
 		$this->load->view('template/header', $data);
 		$this->load->view('template/menu');
 		$this->load->view($data['localPath']);
@@ -358,5 +395,54 @@ class Produtos extends CI_Controller {
 		} else {
 			echo 'erro-500';
 		}
+	}
+
+	public function buscaProdutos($categoria, $quantidade, $pagina, $planilha){
+		// ID da planilha (extraído da URL da planilha)
+		$spreadsheetId = $planilha;
+
+		// Intervalo da planilha que você deseja obter (por exemplo, 'Sheet1'!A1:B10)
+		$de  = $pagina == 1 ? 2 : (1 + ($quantidade*($pagina-1)));
+		$ate = $pagina == 1 ? ($quantidade + 1) : (1 + ($quantidade*($pagina)));
+		
+		// Sua chave de API do Google
+		$apiKey = 'AIzaSyA089Pws7JhNwDs7KTZLxOstx5UCNE4clw';
+
+		if($quantidade == 0){
+			$range = "Produtos!A2:H?majorDimension=ROWS";
+		} else {
+			$range = "Produtos!A$de:H$ate?majorDimension=ROWS";	
+		}
+		
+		// URL da API do Google Sheets
+		$url = "https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/$range&key=$apiKey";
+
+		// Inicializar cURL
+		$ch = curl_init($url);
+
+		// Configurar opções do cURL
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		// Fazer a solicitação HTTP GET
+		$response = curl_exec($ch);
+
+		// Verificar se houve algum erro na solicitação
+		if (curl_errno($ch)) {
+			echo 'Erro ao obter dados da planilha: ' . curl_error($ch);
+		}
+
+		// Fechar a sessão cURL
+		curl_close($ch);
+
+		$response = json_decode($response);
+
+		if (!isset($response->code) && $categoria != 0) {
+			$values = $response->values;
+			$values = array_filter($values, function($value) use ($categoria){return $value[5] == $categoria;});	
+
+			$response->values = $values;
+		}
+
+		return json_encode($response);
 	}
 }

@@ -294,6 +294,19 @@
                 </div>
             </div>
 
+            <div class="row mt-4 mb-3">
+                <div class="col">
+                    <strong>INTEGRAÇÃO COM GOOGLE SHEETS</strong>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md">
+                    <label class="mb-2">Código da Planilha</label>
+                    <input type="text" name="planilha" class="form-control" value="<?= $cliente->planilha ?>">
+                </div>
+            </div>
+
             <div class="form-group">
                 <button id="enviar" type="submit" class="btn btn-primary pull-right">Salvar</button>
             </div>
