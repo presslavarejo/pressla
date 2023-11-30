@@ -203,85 +203,113 @@ class Produtos extends CI_Controller {
 		// SUBIR ARQUIVOS EM MASSA
 		$colunas = 8;
 		if($this->input->method() === 'post'){
-			if($_FILES != null){
-				$arquivo = $_FILES['arquivoxml']["tmp_name"];
-				$ext = pathinfo($_FILES['arquivoxml']['name'], PATHINFO_EXTENSION);
+			if($this->input->post('url_planilha')){
+				$planilha = $this->input->post('url_planilha');
+				$planilha = explode('/', $planilha);
 
-				$a = [];
-				$contador = 0;
-				
-				if($ext == 'xml'){
-                
-					$link = $arquivo;
-					//link do arquivo xml
-					$xml = simplexml_load_file($link) -> Produto;
+				if(count($planilha) > 3) {
+					$index = array_search("d", $planilha);
+					if(isset( $planilha[$index+1])){
+						$planilha = $planilha[$index + 1];
+						
+						$produtos = $this->buscaProdutos(0, 0, 0, $planilha);
 
-					foreach($xml as $item){
-						array_push($a, [
-							"".$contador++, 
-							$item->DESCRICAO, 
-							$item->NCM, 
-							strtoupper($item->SKU), 
-							str_replace(",",".",$item->PRECO), 
-							str_replace(",",".",$item->PRECOPROMOCIONAL), 
-							isset($item->UNIDADE) ? $item->UNIDADE : "Un", 
-							isset($item->QUANTIDADE) ? $item->QUANTIDADE : 1]);
-					}
-				
-				} else if($ext == "csv"){
+						$teste = json_decode($produtos);
 
-					$handle = fopen($arquivo, "r");
+						// echo json_encode(array("status" => "error", "msg" => json_encode($teste->values)));
 
-					$header = fgetcsv($handle, 1000, ",");
-
-					if(count($header) > 1){
-						$separador = ",";
-						$handle = fopen($arquivo, "r");
-						$header = fgetcsv($handle, 1000, ";");
-						$header = explode(",",utf8_encode($header[0]));
-					} else if(mb_strpos(implode("-",$header), ";")) {
-						$header = explode(";",utf8_encode($header[0]));
-						$separador = ";";
-					} else if(mb_strpos(implode("-",$header), "\t")) {
-						$header = explode("\t",utf8_encode($header[0]));
-						$separador = "\t";
-					}
-
-					while(count($header) > $colunas){
-						array_pop($header);
-					}
-
-					while ($row = fgetcsv($handle, 1000, $separador == "," ? ";" : "\n")) {
-						$linha = explode($separador, utf8_encode($row[0]));
-						while(count($linha) > $colunas){
-							array_pop($linha);
+						if(isset($teste->values)){
+							echo json_encode(array("status" => "ok", "msg" => "Sucesso", "dados" => json_encode($teste->values)));
+						} else {
+							echo json_encode(array("status" => "error", "msg" => "URL inválida. Siga as observações!"));	
 						}
-						$nota[] = array_combine($header, $linha);
+					} else {
+						echo json_encode(array("status" => "error", "msg" => "URL inválida. Siga as observações!"));
 					}
-
-					if(isset($nota)){
-						foreach($nota as $nt){
-							if(isset($nt["DESCRICAO"])){
-								array_push($a, [
-									"".$contador++, 
-									utf8_decode($nt["DESCRICAO"]), 
-									$nt["NCM"], 
-									strtoupper($nt["SKU"]), 
-									number_format(floatval(str_replace(",",".",$nt["PRECO"])), 2, ".", ""), 
-									number_format(floatval(str_replace(",",".",$nt["PRECO PROMOCIONAL"])), 2, ".", ""), 
-									isset($nt["UNIDADE"]) ? utf8_decode($nt["UNIDADE"]) : "Un", 
-									isset($nt["QUANTIDADE"]) ? $nt["QUANTIDADE"] : 1
-								]);
+				} else {
+					echo json_encode(array("status" => "error", "msg" => "URL inválida. Siga as observações!"));
+				}
+			} else {
+				if($_FILES != null){
+					$arquivo = $_FILES['arquivoxml']["tmp_name"];
+					$ext = pathinfo($_FILES['arquivoxml']['name'], PATHINFO_EXTENSION);
+	
+					$a = [];
+					$contador = 0;
+					
+					if($ext == 'xml'){
+					
+						$link = $arquivo;
+						//link do arquivo xml
+						$xml = simplexml_load_file($link) -> Produto;
+	
+						foreach($xml as $item){
+							array_push($a, [
+								"".$contador++, 
+								$item->DESCRICAO, 
+								$item->NCM, 
+								strtoupper($item->SKU), 
+								str_replace(",",".",$item->PRECO), 
+								str_replace(",",".",$item->PRECOPROMOCIONAL), 
+								isset($item->UNIDADE) ? $item->UNIDADE : "Un", 
+								isset($item->QUANTIDADE) ? $item->QUANTIDADE : 1]);
+						}
+					
+					} else if($ext == "csv"){
+	
+						$handle = fopen($arquivo, "r");
+	
+						$header = fgetcsv($handle, 1000, ",");
+	
+						if(count($header) > 1){
+							$separador = ",";
+							$handle = fopen($arquivo, "r");
+							$header = fgetcsv($handle, 1000, ";");
+							$header = explode(",",utf8_encode($header[0]));
+						} else if(mb_strpos(implode("-",$header), ";")) {
+							$header = explode(";",utf8_encode($header[0]));
+							$separador = ";";
+						} else if(mb_strpos(implode("-",$header), "\t")) {
+							$header = explode("\t",utf8_encode($header[0]));
+							$separador = "\t";
+						}
+	
+						while(count($header) > $colunas){
+							array_pop($header);
+						}
+	
+						while ($row = fgetcsv($handle, 1000, $separador == "," ? ";" : "\n")) {
+							$linha = explode($separador, utf8_encode($row[0]));
+							while(count($linha) > $colunas){
+								array_pop($linha);
+							}
+							$nota[] = array_combine($header, $linha);
+						}
+	
+						if(isset($nota)){
+							foreach($nota as $nt){
+								if(isset($nt["DESCRICAO"])){
+									array_push($a, [
+										"".$contador++, 
+										utf8_decode($nt["DESCRICAO"]), 
+										$nt["NCM"], 
+										strtoupper($nt["SKU"]), 
+										number_format(floatval(str_replace(",",".",$nt["PRECO"])), 2, ".", ""), 
+										number_format(floatval(str_replace(",",".",$nt["PRECO PROMOCIONAL"])), 2, ".", ""), 
+										isset($nt["UNIDADE"]) ? utf8_decode($nt["UNIDADE"]) : "Un", 
+										isset($nt["QUANTIDADE"]) ? $nt["QUANTIDADE"] : 1
+									]);
+								}
 							}
 						}
+						
+						fclose($handle);
 					}
-					
-					fclose($handle);
+	
+					echo json_encode(array("status" => "ok", "msg" => "Sucesso", "dados" => $a));
+				} else {
+					echo json_encode(array("status" => "error", "msg" => "Nenhum arquivo enviado"));
 				}
-
-				echo json_encode(array("status" => "ok", "msg" => "Sucesso", "dados" => $a));
-            } else {
-				echo json_encode(array("status" => "error", "msg" => "Nenhum arquivo enviado"));
 			}
 		} else {
 			echo json_encode(array("status" => "error", "msg" => "Nenhum dado enviado"));

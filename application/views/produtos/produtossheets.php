@@ -134,22 +134,46 @@
         </div>
     </div>
 
-    <div class="row mt-4">
+    <div class="row mt-4 mb-4">
         <div class="col">
-            <form class="row" method="post" onsubmit="$('#fq').val($('#filtro_quantidade').val());$('#fc').val($('#filtro_categoria').val())">
+            <form class="row" method="post" onsubmit="$('#fq').val($('#filtro_quantidade').val());$('#fc').val($('#filtro_categoria').val())" id="form-paginacao">
                 <input type="hidden" name="filtro_quantidade" id="fq" value="<?= $quantidade_atual ?>">
                 <input type="hidden" name="filtro_categoria" id="fc" value="<?= $categoria_atual ?>">
                 
                 <div class="col-auto">
                     <div class="row">
-                        <div class="col-auto"> <button type="submit" class="btn btn-primary"> < </button> </div>
-                        <div class="col-3"> <input type="text" class="form-control text-center" value="<?= $pagina_atual ?>"> </div>
-                        <div class="col-auto"> <button type="submit" class="btn btn-primary"> > </button> </div>
+                        <div class="col-auto"> <button type="button" class="btn btn-primary" onclick="mudapag('-')"> < </button> </div>
+                        <select name="filtro_pagina" id="filtro_pagina" class="form-select" onchange="$('#form-paginacao').submit()">
+                        <?php
+                        for ($i = 1; $i <= 1000; $i++) {
+                        ?>
+                        <option value="<?= $i ?>" <?= $i == $pagina_atual ? "selected" : "" ?>> <?= $i ?> </option>
+                        <?php
+                        }
+                        ?>
+                        </select>
+                        <div class="col-auto"> <button type="button" class="btn btn-primary" onclick="mudapag('+')"> > </button> </div>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+
+    <script>
+        function mudapag(tipo) {
+            if((tipo == '-' && $('#filtro_pagina').val() == 1) || (tipo == '+' && $('#filtro_pagina').val() == 1000)) {
+                return;
+            } else {
+                if(tipo == '+') {
+                    $('#filtro_pagina').val(parseInt($('#filtro_pagina').val()) + 1);
+                } else {
+                    $('#filtro_pagina').val(parseInt($('#filtro_pagina').val()) - 1);
+                }
+
+                $('#form-paginacao').submit();
+            }
+        }
+    </script>
 
 </div>
 

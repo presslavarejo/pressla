@@ -3,7 +3,7 @@
     <h1 class="header" style='padding:10px;'>Cartazes em Massa <small class="text-muted">Gerados a partir do gerenciador de produtos</small> <a href="<?php echo base_url('index.php/produtos'); ?>" class="btn btn-primary btn-sm text-white"> < </a> </h1>
     <?php $this->load->view("dashboard/criar/style"); ?>
     <hr>
-    <form method="post" class="row" id="form-carregar" enctype="multipart/form-data" onsubmit="carregaprodutos(this, event)">
+    <form method="post" class="row" id="form-carregar" enctype="multipart/form-data" onsubmit="carregaprodutos(this, event, 'form-carregar')">
         <div class="col-sm text-center mt-2 mb-2">
             Para importar mais produtos. <a href="#" onclick="$('#baixamodelo').modal('show')"><strong>Clique aqui</strong></a> para baixar o arquivo modelo.
         </div>
@@ -12,6 +12,27 @@
         </div>
         <div class="col-sm-1 mt-2 mb-2">
             <input type="submit" value="OK" class="btn btn-success col">
+        </div>
+    </form>
+
+    <div class="row mt-2 mb-2">
+        <div class="col">
+            <h1 class="text-center">OU</h1>
+        </div>
+    </div>
+
+    <form method="post" class="row" id="form-carregar-sheets" onsubmit="carregaprodutos(this, event, 'form-carregar-sheets')">
+        <div class="col-sm-auto d-flex align-items-center">
+            Importe uma planilha do Google Sheets:
+        </div>
+        <div class="col-sm mt-2 mb-2">
+            <input type="text" name="url_planilha" class="form-control" placeholder="Cole aqui a URL da planilha" required>
+        </div>
+        <div class="col-sm-1 mt-2 mb-2">
+            <input type="submit" value="OK" class="btn btn-success col">
+        </div>
+        <div class="col-12 mt-2 small text-secondary text-right">
+            Obs.: Para funcionar corretamente, a planilha deve ser pública e o nome dela deve ser Produtos
         </div>
     </form>
     <hr>
@@ -362,10 +383,10 @@
         });
     }
 
-    function carregaprodutos(element, e){
+    function carregaprodutos(element, e, idform){
         e.preventDefault();
 
-        const form = document.getElementById("form-carregar");
+        const form = document.getElementById(idform);
 
         $.ajax({
             url: '<?= base_url("index.php/produtos/g") ?>',
@@ -389,6 +410,12 @@
                         if(dadosdafila.length == 1 && dadosdafila[0].length <= 3){
                             dadosdafila = [];
                         }
+
+                        if(typeof html.dados === "string") {
+                            html.dados = JSON.parse(html.dados);
+                        }
+
+                        console.log(html.dados);
                         
                         html.dados.forEach((item) => {
                             item[8] = item[7] ? item[7] : 1; //A QUANTIDADE VEM NO 7. PARA EVITAR MUDANÇAS NOS ARQUIVOS DE LAYOUT, ATRUBUÍMOS AQUI
@@ -406,8 +433,8 @@
     }
 
     function trataDados(tipo, index=false){
-        dadosdafila.forEach((item) => {
-            if(item.length == 8){
+        dadosdafila.forEach((item, index) => {
+            if(item.length == 9 && !isNaN(item[0])){
                 if(parseFloat(item[4]) == 0 || item[4] == item[5]){
                     item[4] = "";
                 }
@@ -415,7 +442,20 @@
                     item[5] = item[4];
                     item[4] = "";
                 }
-            } else {
+            } else if(item.length == 9){
+                item.splice(5, 1);
+                item.unshift(index);
+
+                if(parseFloat(item[4]) == 0 || item[4] == item[5]){
+                    item[4] = "";
+                }
+                if(parseFloat(item[5]) == 0){
+                    item[5] = item[4];
+                    item[4] = "";
+                }
+            }
+            
+            else {
                 // dadosdafila.splice(index, 1);
             }
         });

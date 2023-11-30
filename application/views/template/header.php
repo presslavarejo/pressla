@@ -13,7 +13,13 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/home.css?v=').time(); ?>">
 
-    
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "jvzi08x7le");
+  </script>
   </head>
   <body>
     <script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>

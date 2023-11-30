@@ -1291,9 +1291,15 @@ main .ck-editor[role='application'] .ck.ck-content,
             } else {
                 $("#auto-list").hide();
 
+                <?php
+                if(!$cliente->planilha){
+                ?>
                 if(extraiNomeCor(Editor_master.getData())[0][0] != "Produto"){
                     $("#container_incluir_produto").show('fast');
                 }
+                <?php
+                }
+                ?>
             }
         } else {
             $("#container_incluir_produto").hide();
