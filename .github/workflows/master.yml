@@ -13,7 +13,7 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: 149.100.154.227
+        server: app.pressla.com.br 
         username: gitftp@app.pressla.com.br
         password: qWqVJi@t&22i
         server-dir: /

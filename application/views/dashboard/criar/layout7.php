@@ -66,7 +66,7 @@
             ctx.fillText($("#acimade").val(), 2*525, 3*(h/5)+(3*150)+2*25, (w/2)-2*10);
             ctx.fillStyle = "#333333";
             ctx.font = ""+(2*30)+"px "+$('#fonte').val();
-            ctx.fillStyle = "#FFFFFF";
+            ctx.fillStyle = "#FFFFFF"; 
             ctx.textAlign = "left";
             ctx.fillText(rodape, 2*33, h-2*10, w-2*33);
         }
