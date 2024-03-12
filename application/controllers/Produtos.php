@@ -444,6 +444,12 @@ class Produtos extends CI_Controller {
 		
 		// URL da API do Google Sheets
 		$url = "https://sheets.googleapis.com/v4/spreadsheets/$spreadsheetId/values/$range&key=$apiKey";
+		
+		// https://sheets.googleapis.com/v4/spreadsheets/16xGRpIBTvZoYM81fYJwkPQx4jNzL6IXpRhzTSBmlNAM/values/Produtos!A2:H11?majorDimension=ROWS&key=AIzaSyA089Pws7JhNwDs7KTZLxOstx5UCNE4clw
+		// https://sheets.googleapis.com/v4/spreadsheets/16xGRpIBTvZoYM81fYJwkPQx4jNzL6lXpRhzTSBmINAM/values/Produtos!A2%3AH11?majorDimension=ROWS&key=AIzaSyA089Pws7JhNwDs7KTZLxOstx5UCNE4clw
+		// https://sheets.googleapis.com/v4/spreadsheets/16xGRpIBTvZoYM81fYJwkPQx4jNzL6lXpRhzTSBmlNAM/values/Produtos!A2:H11?majorDimension=ROWS&key=AIzaSyA089Pws7JhNwDs7KTZLxOstx5UCNE4clw
+		// echo var_dump($url);
+		// exit;
 
 		// Inicializar cURL
 		$ch = curl_init($url);

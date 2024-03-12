@@ -14,15 +14,15 @@ $db['default'] = array(
 
 	'dsn'	=> '',
 
-	'hostname' => 'localhost',
+	'hostname' => '162.240.20.91',
 
-	// 'username' => 'wwapp_pressla',
+	'username' => 'wwapp_pressla',
 
-	'username' => 'root',
+	// 'username' => 'root',
 
-	// 'password' => 'Pressla321admin',
+	'password' => 'Pressla321admin',
 
-	'password' => '',
+	// 'password' => '',
 
 	'database' => 'wwapp_pressla',
 

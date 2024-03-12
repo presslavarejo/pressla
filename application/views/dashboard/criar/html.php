@@ -592,7 +592,7 @@ main .ck-editor[role='application'] .ck.ck-content,
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Cor</span>
                                         </div>
-                                        <input type="color" id="cor_preco" name="ArcoIris" list="arcoIris" value="#FFFFFF" class="form-control" style="height:38px" onchange="criaCartaz()">
+                                        <input type="color" id="cor_preco" name="ArcoIris" list="arcoIris" value="#FFFFFF" class="form-control p-0" style="height:38px" onchange="criaCartaz()">
                                         <datalist id="arcoIris">
                                             <option value="#FFFFFF">Branco</option>
                                             <option value="#000000">Preto</option>
@@ -631,7 +631,7 @@ main .ck-editor[role='application'] .ck.ck-content,
                                         <div class="input-group-prepend">
                                             <span class="input-group-text">Cor</span>
                                         </div>
-                                        <input type="color" id="cor_preco_anterior" name="ArcoIris" list="arcoIris" value="#FFFFFF" class="form-control" style="height:38px" onchange="criaCartaz()">
+                                        <input type="color" id="cor_preco_anterior" name="ArcoIris" list="arcoIris" value="#FFFFFF" class="form-control p-0" style="height:38px" onchange="criaCartaz()">
                                     </div>
                                 </div>
                             </div>

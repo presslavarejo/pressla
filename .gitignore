@@ -1,4 +1,5 @@
 assets/images
 application/logs
 application/cache
+application/config/database.php
 vendor
