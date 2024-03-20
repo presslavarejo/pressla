@@ -106,7 +106,7 @@
                     foreach($produtos as $produto) {
                         $produto_id = uniqid();
                         $nome_categoria = array_filter($templates, function($value) use ($produto){
-                            return $value->id == $produto[5];
+                            return isset($produto[5]) && $value->id == $produto[5];
                         });
 
                         $nome_categoria = array_values($nome_categoria);
@@ -114,15 +114,15 @@
                         $nome_categoria = count($nome_categoria) > 0 ? $nome_categoria[0]->tipo : "";
                     ?>
                         <tr>
-                            <td><input type="checkbox" onchange="contaSelecionados()" class="check-produto" data-id="<?=$produto_id?>" name="produtos[]" value="<?=$produto_id."<|>".$produto[0]."<|>".$produto[1]."<|>".$produto[2]."<|>".$produto[3]."<|>".$produto[4]."<|>".$produto[6]."<|> <|>".$produto[7]?>"></td>
-                            <td><?=$produto[0]?></td>
-                            <td><?=$produto[1]?></td>
-                            <td><?=$produto[2]?></td>
+                            <td><input type="checkbox" onchange="contaSelecionados()" class="check-produto" data-id="<?=$produto_id?>" name="produtos[]" value="<?=$produto_id."<|>".(isset($produto[0]) ? $produto[0] : "")."<|>".(isset($produto[1]) ? $produto[1] : "")."<|>".(isset($produto[2]) ? $produto[2] : "")."<|>".(isset($produto[3]) ? $produto[3] : "")."<|>".(isset($produto[4]) ? $produto[4] : "")."<|>".(isset($produto[6]) ? $produto[6] : "")."<|> <|>".(isset($produto[7]) ? $produto[7] : "")?>"></td>
+                            <td><?=isset($produto[0]) ? $produto[0] : ""?></td>
+                            <td><?=isset($produto[1]) ? $produto[1] : ""?></td>
+                            <td><?=isset($produto[2]) ? $produto[2] : ""?></td>
                             <td><?=$nome_categoria?></td>
-                            <td class="text-center"><?=$produto[3]?></td>
-                            <td class="text-center"><?=$produto[4]?></td>
-                            <td class="text-center"><?=$produto[6]?></td>
-                            <td class="text-center"><?=$produto[7]?></td>
+                            <td class="text-center"><?=isset($produto[3]) ? $produto[3] : ""?></td>
+                            <td class="text-center"><?=isset($produto[4]) ? $produto[4] : ""?></td>
+                            <td class="text-center"><?=isset($produto[6]) ? $produto[6] : ""?></td>
+                            <td class="text-center"><?=isset($produto[7]) ? $produto[7] : ""?></td>
                         </tr>
                     <?php }?>
                     </tbody>
