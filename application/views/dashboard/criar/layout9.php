@@ -12,6 +12,8 @@
             var precoant = dadosdafila[i][4].replace(".",",");
 
             var unidade = dadosdafila[i][6];
+            $("#acimade") ? $("#acimade").val(unidade) : false;
+            $("#acimadevarejo") ? $("#acimadevarejo").val(unidade) : false;
             var rodape = dadosdafila[i][7];
             var codigo = "";
 

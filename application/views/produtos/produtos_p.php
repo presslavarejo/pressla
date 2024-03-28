@@ -222,6 +222,8 @@
 <div style="display:none">
     <input type="hidden" id="tamanho_fonte" value="100">
     <input type="hidden" id="unidade" value="Un">
+    <input type="hidden" id="acimade" value="">
+    <input type="hidden" id="acimadevarejo" value="">
     <input type="checkbox" name="quadrante" id="quadrante" value="1" checked>
     <input type="checkbox" name="incluirlogo" id="incluirlogo" value="1" checked>
     <input type="hidden" id="A3" value="2<|>297 x 420">
