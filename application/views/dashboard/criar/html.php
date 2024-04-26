@@ -190,6 +190,7 @@ main .ck-editor[role='application'] .ck.ck-content,
                                             echo "</option>";
                                         }
                                     ?>
+                                    <option value="3<|>297 x 420" id="2x_A3">2 x A3 | Duas folhas A3</option>
                                 </select>
                             </div>
                         </div>

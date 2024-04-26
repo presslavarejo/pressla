@@ -83,13 +83,13 @@
                 
                 } else {
 
-                    var doc = new jsPDF({
-                        orientation: $("#layout").val() == 5 || $("#layout").val() == 6 || $("#layout").val() == 7 || $("#layout").val() == 18 || $("#layout").val() == 10 || $("#layout").val() == 11 || $("#layout").val() == 14 || $("#layout").val() == 25 ? 'l' : 'p',
-                        format: id.length == 2 ? id : [w, h]
-                    });
-
                     const imagem = canvas.toDataURL("image/jpeg");
                     if ($("#layout").val() == 14) {
+                        var doc = new jsPDF({
+                            orientation: $("#layout").val() == 5 || $("#layout").val() == 6 || $("#layout").val() == 7 || $("#layout").val() == 18 || $("#layout").val() == 10 || $("#layout").val() == 11 || $("#layout").val() == 14 || $("#layout").val() == 25 ? 'l' : 'p',
+                            format: id.length == 2 ? id : [w, h]
+                        });
+
                         if ($("#tamanho2").val() == "A1") {
                             doc.addImage(imagem, "JPEG", 0, 0, w * 2, h * 2);
                             doc.addPage({
@@ -112,16 +112,44 @@
                             doc.addImage(imagem, "JPEG", 0, 0, w, h);
                         }
                     } else {
-                        if (id.length >= 8) {
-                            var paginas = parseInt(id.split(' ')[1].split('x')[1]);
-                            doc.addImage(imagem, "JPEG", 0, 0, w, h * paginas);
-                            doc.addPage({
-                                orientation: 'l',
-                                format: [w, h]
-                            });
-                            doc.addImage(imagem, "JPEG", 0, h * (-1), w, h * paginas);
+                        if(id.indexOf("x_A") != -1){
+                            const paginas = id.split("x_A")[0].trim();
+                            const folha   = id.split("x_")[1].trim();
+                            
+                            if(paginas == 2) {
+                                const options = {
+                                    orientation: h > w ? "l" : "p",
+                                    format: folha
+                                }
+                                var doc = new jsPDF(options);
+
+                                if(h > w) {
+                                    doc.addImage(imagem, "JPEG", 0, 0, h, w * 2);
+                                    doc.addPage(options);     
+                                    doc.addImage(imagem, "JPEG", 0, -w, h, w * 2);
+                                } else {
+                                    doc.addImage(imagem, "JPEG", 0, 0, h * 2, w);
+                                    doc.addPage(options);     
+                                    doc.addImage(imagem, "JPEG", -h, 0, h * 2, w);
+                                }
+                            }
                         } else {
-                            doc.addImage(imagem, "JPEG", 0, 0, w, h);
+                            var doc = new jsPDF({
+                                orientation: $("#layout").val() == 5 || $("#layout").val() == 6 || $("#layout").val() == 7 || $("#layout").val() == 18 || $("#layout").val() == 10 || $("#layout").val() == 11 || $("#layout").val() == 14 || $("#layout").val() == 25 ? 'l' : 'p',
+                                format: id.length == 2 ? id : [w, h]
+                            });
+
+                            if (id.length >= 8) {
+                                var paginas = parseInt(id.split(' ')[1].split('x')[1]);
+                                doc.addImage(imagem, "JPEG", 0, 0, w, h * paginas);
+                                doc.addPage({
+                                    orientation: 'l',
+                                    format: [w, h]
+                                });
+                                doc.addImage(imagem, "JPEG", 0, h * (-1), w, h * paginas);
+                            } else {
+                                doc.addImage(imagem, "JPEG", 0, 0, w, h);
+                            }
                         }
                     }
                 }
