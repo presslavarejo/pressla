@@ -59,7 +59,12 @@
 						}
 					} else {
 						$("#loader").hide();
-						alert("Não foi possível entrontrar imagens disponíveis com o parâmetro informado");
+                        
+                        if(figuras.length > 0) {
+                            mostraFiguras();                
+                        } else {
+                            alert("Não foi possível entrontrar imagens disponíveis com o parâmetro informado");
+                        }
 					}
 				});
 			});
